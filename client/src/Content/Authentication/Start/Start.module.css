@@ -1,0 +1,31 @@
+
+.information{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 3em;
+}
+.text{
+    margin-bottom: 2em;
+}
+.text p{
+    max-width: 510px;
+    margin: 0.75em auto 0;
+}
+.text h2{
+    margin: 1em auto 0;
+    max-width: 404px;
+}
+.first{
+    color: #763DD9;
+}
+.second{
+    color: #5AD679;
+}
+
+@media screen and (max-width:992px) {
+    .logo{
+        text-align: center;
+    }
+}

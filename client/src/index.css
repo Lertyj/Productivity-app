@@ -1,0 +1,30 @@
+@font-face {
+    font-family: "Lexend";
+    src: url(./fonts/Lexend-Regular.ttf);
+  }
+
+*{
+    font-family: "Lexend";
+}
+h1{
+    font-size: calc( (100vw - 360px)/(1920 - 360) * (50 - 40) + 40px);
+}
+h2{
+    font-size: calc( (100vw - 360px)/(1920 - 360) * (40 - 26) + 26px);
+}
+p{
+    font-size: calc( (100vw - 360px)/(1920 - 360) * (26 - 14) + 14px);
+}
+button{
+    font-size: calc( (100vw - 360px)/(1920 - 360) * (32 - 20) + 20px);
+}
+img{
+    max-width: 100%;
+    height: auto;
+}
+
+:root{
+    --green: #5AD679;
+    --purple: #763DD9;
+    --button_green: #3BAF58;
+}

@@ -1,0 +1,8 @@
+.button{
+    background: var(--purple);
+    padding: 0.5em 4em;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    text-wrap: nowrap;
+}

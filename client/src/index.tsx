@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App/App";
+import "./index.css";
 function RootComponent() {
   return (
     <React.StrictMode>
