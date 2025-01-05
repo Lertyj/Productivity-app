@@ -2,7 +2,10 @@
     background: var(--purple);
     padding: 0.5em 4em;
     border: none;
-    border-radius: 15px;
+    border-radius: 20px;
     cursor: pointer;
     text-wrap: nowrap;
+    color: var(--button_color);
+    width: 100%;
+    margin-bottom: 0.65em;
 }

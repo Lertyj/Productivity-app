@@ -12,6 +12,9 @@ h1{
 h2{
     font-size: calc( (100vw - 360px)/(1920 - 360) * (40 - 26) + 26px);
 }
+h3{
+    font-size: calc( (100vw - 360px)/(1920 - 360) * (36 - 20) + 20px);
+}
 p{
     font-size: calc( (100vw - 360px)/(1920 - 360) * (26 - 14) + 14px);
 }
@@ -27,4 +30,5 @@ img{
     --green: #5AD679;
     --purple: #763DD9;
     --button_green: #3BAF58;
+    --button_color: #FFFFFF;
 }

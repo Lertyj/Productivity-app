@@ -21,7 +21,7 @@ function Start() {
           </p>
         </div>
 
-        <Button text="Let’s start" />
+        <Button text="Let’s start" type="button" />
       </div>
     </div>
   );
