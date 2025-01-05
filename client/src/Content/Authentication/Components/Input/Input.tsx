@@ -6,7 +6,7 @@ interface InputProps {
   inputtype1: string;
   inputtype2: string;
   buttontype1: "button" | "submit" | "reset";
-  buttontype2: "button" | "submit" | "reset";
+  buttontype2?: "button" | "submit" | "reset";
   inputtext1: string;
   inputtext2: string;
   buttontext1: string;
@@ -47,7 +47,9 @@ function Input({
         )}
         <div className={style.buttons}>
           <Button text={buttontext1} type={buttontype1} />
-          {buttontext2 && <Button text={buttontext2} type={buttontype2} />}
+          {buttontext2 && (
+            <Button text={buttontext2} type={buttontype2 || "button"} />
+          )}
         </div>
       </div>
     </form>

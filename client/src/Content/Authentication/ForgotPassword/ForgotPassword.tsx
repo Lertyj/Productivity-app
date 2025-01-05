@@ -1,10 +1,10 @@
 import React from "react";
-import style from "./Login.module.css";
+import style from "./ForgotPassword.module.css";
+import Input from "../Components/Input/Input";
 import man from "../../../img/man.png";
 import focus from "../../../img/focus.png";
-import Input from "../Components/Input/Input";
 
-function Login() {
+function ForgotPassword() {
   return (
     <div className={style.wrapper}>
       <div className={style.logo}>
@@ -22,15 +22,12 @@ function Login() {
         </div>
         <div className={style.input_block}>
           <Input
-            inputtype1="email"
-            inputtext1="Your Email"
+            inputtype1="password"
+            inputtext1="Enter new password"
             inputtype2="password"
-            inputtext2="Your Password"
-            buttontext1="Log in"
+            inputtext2="Re-enter new password"
+            buttontext1="Submit"
             buttontype1="submit"
-            buttontext2="Sign up"
-            buttontype2="button"
-            forgotpassword="Forgot Password"
           />
         </div>
       </div>
@@ -38,4 +35,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ForgotPassword;
