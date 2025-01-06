@@ -20,8 +20,9 @@ function Start() {
             task project-wise conveniently!
           </p>
         </div>
-
-        <Button text="Let’s start" type="button" />
+        <div className={style.button}>
+          <Button text="Let’s start" type="button" />
+        </div>
       </div>
     </div>
   );
