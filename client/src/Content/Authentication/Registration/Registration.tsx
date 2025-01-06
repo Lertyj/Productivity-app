@@ -2,7 +2,6 @@ import React from "react";
 import style from "./Registration.module.css";
 import man from "../../../img/man.png";
 import focus from "../../../img/focus.png";
-import Input from "../Components/Input/Input";
 import Button from "../Components/Button/Button";
 
 function Registration() {

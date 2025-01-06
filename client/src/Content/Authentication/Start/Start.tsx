@@ -2,6 +2,7 @@ import React from "react";
 import style from "./Start.module.css";
 import Button from "../Components/Button/Button";
 import start_women from "../../../img/start_women.png";
+
 function Start() {
   return (
     <div className={style.wrapper}>

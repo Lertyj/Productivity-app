@@ -8,21 +8,72 @@
     justify-content: center;
     margin: 0 auto;
 }
+.button{
+    background:none;
+    border:none;
+    margin-right: 5px;
+    padding-left: 0;
+}
+.real_checkbox{
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+.custom_checkbox{
+    font-size: calc((100vw - 360px)/(1920 - 360) * (26 - 18) + 18px);
+    position: relative;
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    border-radius: 3px;
+    background: none;
+    border: 1px solid #A5A5A5;
+    cursor: pointer;
+}
+:root{
+    .custom_checkbox::before{
+    content:'';
+    font-size: calc((100vw - 360px)/(1920 - 360) * (16 - 10) + 10px);
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background: url(../../../../svg/black_mark.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%,-50%) scale(0);
+    transition: .2s ease-in ;
+    margin-top: 1px;
+}
+}
 
-input {
+.real_checkbox:checked + .custom_checkbox::before{
+    transform:translate(-50%,-50%) scale(1);
+}
+.privacy{
     width: 100%;
-    height: 3em;
-    font-size: calc((100vw - 360px)/(1920 - 360) * (22 - 12) + 12px);
-    margin-bottom: 1em;
-    border-radius: 15px;
-    text-indent: 0.75em;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    margin: 0 auto 1.25em;
+}
+.privacy p{
+    margin: 0;
+    width: 90%;
+}
+.privacyspan{
+    color: var(--green);
+    text-decoration: underline;
+    cursor: pointer;
 }
 
-.forgot_password {
-    color: var(--green);
-}
 
 .forgot_password p {
+    color: var(--green);
     text-decoration: underline;
     cursor: pointer;
     margin: 0 auto 1.25em;
@@ -37,4 +88,23 @@ input {
     display: flex;
     flex-direction: column;
     min-width: 225px;
+}
+.textinput{
+    width: 100%;
+    height: 3em;
+    font-size: calc((100vw - 360px)/(1920 - 360) * (22 - 12) + 12px);
+    margin-bottom: 1em;
+    border-radius: 15px;
+    text-indent: 0.75em;
+}
+.label{
+    margin-bottom: 0.25em;
+    font-size: calc((100vw - 360px)/(1920 - 360) * (26 - 18) + 18px);
+}
+
+.block1,.block2{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
 }
