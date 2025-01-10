@@ -72,12 +72,18 @@
 }
 
 
-.forgot_password p {
+.forgot_password button{
     color: var(--green);
     text-decoration: underline;
     cursor: pointer;
     margin: 0 auto 1.25em;
     font-size: calc((100vw - 360px)/(1920 - 360) * (22 - 12) + 12px);
+    background: none;
+    border: none;
+    transition: opacity 0.2s ease;
+}
+.forgot_password button:hover{
+    opacity: 80%;
 }
 
 .block{

@@ -3,6 +3,7 @@ import style from "./Registration.module.css";
 import man from "../../../img/man.png";
 import focus from "../../../img/focus.png";
 import Button from "../Components/Button/Button";
+import { NavLink } from "react-router-dom";
 
 function Registration() {
   return (
@@ -18,12 +19,17 @@ function Registration() {
         <div className={style.text}>
           <h3>Stay</h3>
           <img src={focus} />
-          <p>
-            Already have an account? <span className={style.login}>Log in</span>
-          </p>
+          <NavLink to="../login">
+            <button className={style.loginlink}>
+              Already have an account?
+              <span className={style.login}>Log in</span>
+            </button>
+          </NavLink>
         </div>
         <div className={style.buttons}>
-          <Button text="Sign up with email" type="button" classN="register" />
+          <NavLink to="./createaccount">
+            <Button text="Sign up with email" type="button" classN="register" />
+          </NavLink>
         </div>
       </div>
     </div>

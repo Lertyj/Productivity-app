@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./Input.module.css";
 import Button from "../Button/Button";
+import { NavLink } from "react-router-dom";
 
 interface InputProps {
   inputtype1: string;
@@ -16,6 +17,8 @@ interface InputProps {
   label2?: string;
   classN?: string;
   privacy?: string;
+  navpath1?: string;
+  navpath2?: string;
 }
 function Input({
   inputtype1,
@@ -31,6 +34,8 @@ function Input({
   label2,
   classN,
   privacy,
+  navpath1,
+  navpath2,
 }: InputProps) {
   return (
     <form className={style.wrapper}>
@@ -72,13 +77,20 @@ function Input({
       <div className={style.block}>
         {forgotpassword && (
           <div className={style.forgot_password}>
-            <p>Forgot Password</p>
+            <NavLink to="./forgotpassword">
+              <button type="button">Forgot Password</button>
+            </NavLink>
           </div>
         )}
         <div className={style.buttons}>
-          <Button text={buttontext1} type={buttontype1} classN={classN} />
+          <NavLink to={navpath1 || ""}>
+            <Button text={buttontext1} type={buttontype1} classN={classN} />
+          </NavLink>
+
           {buttontext2 && (
-            <Button text={buttontext2} type={buttontype2 || "button"} />
+            <NavLink to={navpath2 || ""}>
+              <Button text={buttontext2} type={buttontype2 || "button"} />
+            </NavLink>
           )}
         </div>
       </div>

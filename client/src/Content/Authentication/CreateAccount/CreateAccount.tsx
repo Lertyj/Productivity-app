@@ -2,16 +2,18 @@ import React from "react";
 import style from "./CreateAccount.module.css";
 import Input from "../Components/Input/Input";
 import arrowback from "../../../svg/arrowback.svg";
+import { NavLink } from "react-router-dom";
+
 function CreateAccount() {
   return (
     <div className={style.wrapper}>
       <div className={style.logo}>
-        <a>
+        <NavLink to="../login">
           <button className={style.arrowback}>
             <img src={arrowback} />
             <p>Log in</p>
           </button>
-        </a>
+        </NavLink>
       </div>
       <div className={style.information}>
         <div className={style.text}>
@@ -25,6 +27,7 @@ function CreateAccount() {
             inputtext2="Your Password"
             buttontext1="Create an account"
             buttontype1="submit"
+            navpath1="../login"
             label1="Your Email"
             label2="Your Password"
             classN="register"

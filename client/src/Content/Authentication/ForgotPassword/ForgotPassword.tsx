@@ -25,6 +25,7 @@ function ForgotPassword() {
             inputtype1="password"
             inputtext1="Enter new password"
             inputtype2="password"
+            navpath1="../login"
             inputtext2="Re-enter new password"
             buttontext1="Submit"
             buttontype1="submit"

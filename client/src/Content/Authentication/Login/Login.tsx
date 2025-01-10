@@ -27,6 +27,8 @@ function Login() {
             inputtype2="password"
             inputtext2="Your Password"
             buttontext1="Log in"
+            navpath1="./home"
+            navpath2="./registration"
             buttontype1="submit"
             buttontext2="Sign up"
             buttontype2="button"
