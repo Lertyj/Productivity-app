@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./Login.module.css";
 import man from "../../../img/man.png";
 import focus from "../../../img/focus.png";
 import Input from "../Components/Input/Input";
-
+import { useAuth } from "../../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 function Login() {
+  const { loginUser } = useAuth();
+  const navigate = useNavigate();
+  const [newPassword, setNewPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    const success = await loginUser(email, password);
+    if (success) {
+      navigate("/");
+    } else {
+      setError("Incorrect email or password");
+    }
+  };
   return (
     <div className={style.wrapper}>
       <div className={style.logo}>
@@ -27,12 +46,19 @@ function Login() {
             inputtype2="password"
             inputtext2="Your Password"
             buttontext1="Log in"
-            navpath1="./home"
-            navpath2="./registration"
+            navpath2="/registration"
             buttontype1="submit"
             buttontext2="Sign up"
             buttontype2="button"
             forgotpassword="Forgot Password"
+            inputid1="email"
+            inputid2="password"
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            handleSubmit={handleSubmit}
+            error={error}
           />
         </div>
       </div>

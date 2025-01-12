@@ -27,7 +27,7 @@ function Registration() {
           </NavLink>
         </div>
         <div className={style.buttons}>
-          <NavLink to="./createaccount">
+          <NavLink to="/createaccount">
             <Button text="Sign up with email" type="button" classN="register" />
           </NavLink>
         </div>

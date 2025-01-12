@@ -1,10 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
-
-import { registerValidation } from "./validations/auth.js";
+import cors from "cors";
 import checkAuth from "./utils/checkAuth.js";
-
 import * as UserController from "./controllers/UserController.js";
+import { registerValidation } from "./validations/auth.js";
 
 mongoose
   .connect(
@@ -14,15 +13,22 @@ mongoose
   .catch((err) => console.log("DB error", err));
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
+
 app.get("/", (req, res) => {
-  res.send("111Hello World!");
+  res.send("Hello World!");
 });
 
-app.post("/auth/login", UserController.login);
 app.post("/auth/register", registerValidation, UserController.register);
+app.post("/auth/login", registerValidation, UserController.login);
 app.get("/auth/me", checkAuth, UserController.getMe);
+app.post("/auth/resetpassword", checkAuth, UserController.resetPassword);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Что-то пошло не так!");
+});
 
 app.listen(4444, (err) => {
   if (err) {

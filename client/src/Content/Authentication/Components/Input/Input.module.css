@@ -70,8 +70,10 @@
     text-decoration: underline;
     cursor: pointer;
 }
-
-
+.error{
+    margin-top: 0;
+    margin-bottom: 1.5em;
+}
 .forgot_password button{
     color: var(--green);
     text-decoration: underline;

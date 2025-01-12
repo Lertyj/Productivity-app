@@ -1,33 +1,19 @@
 import React from "react";
 import style from "./App.module.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Start from "../Content/Authentication/Start/Start";
-import Login from "../Content/Authentication/Login/Login";
-import ForgotPassword from "../Content/Authentication/ForgotPassword/ForgotPassword";
-import Registration from "../Content/Authentication/Registration/Registration";
-import CreateAccount from "../Content/Authentication/CreateAccount/CreateAccount";
-import Home from "../Content/Home/Home";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "../Routes/AppRoutes";
+import { AuthProvider } from "../Context/AuthContext";
 function App() {
   return (
-    <div className={style.wrapper}>
-      <Router>
-        <div className={style.content}>
-          <Routes>
-            <Route path="/" element={<Start />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/login/home" element={<Home />} />
-            <Route path="/login/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/login/registration" element={<Registration />} />
-            {/* <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/registration" element={<Registration />} /> */}
-            <Route
-              path="/login/registration/createaccount"
-              element={<CreateAccount />}
-            />
-          </Routes>
-        </div>
-      </Router>
-    </div>
+    <AuthProvider>
+      <div className={style.wrapper}>
+        <Router>
+          <div className={style.content}>
+            <AppRoutes />
+          </div>
+        </Router>
+      </div>
+    </AuthProvider>
   );
 }
 

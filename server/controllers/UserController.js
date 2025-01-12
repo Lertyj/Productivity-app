@@ -17,7 +17,6 @@ export const register = async (req, res) => {
     const doc = new userModel({
       email: req.body.email,
       fullName: req.body.fullName,
-      password: req.body.password,
       avatarUrl: req.body.avatarUrl,
       passwordHash: hash,
     });
@@ -82,7 +81,7 @@ export const login = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).json({
+    res.status(5).json({
       message: "Не удалось авторизоваться ",
     });
   }
@@ -102,6 +101,52 @@ export const getMe = async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: "Нет доступа",
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await userModel.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).json({
+        message: "Пользователь не найдет",
+      });
+    }
+
+    // Проверяем старый пароль
+    const isValidOldPass = await bcrypt.compare(oldPassword, user.passwordHash);
+    if (!isValidOldPass) {
+      return res.status(400).json({
+        message: "Неверный старый пароль",
+      });
+    }
+
+    // Проверяем новый пароль на совпадение со старым
+    const isValidNewPass = await bcrypt.compare(newPassword, user.passwordHash);
+    if (isValidNewPass) {
+      return res.status(400).json({
+        message: "Новый пароль не должен совпадать со старым",
+      });
+    }
+
+    // Генерируем новый хеш пароля
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newPassword, salt);
+
+    // Сохраняем новый хеш пароля
+    user.passwordHash = hash; // Присваиваем новый хеш пароля пользователю
+    await user.save(); // Сохраняем изменения в базе данных
+
+    res.json({
+      message: "Пароль успешно изменен",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось изменить пароль",
     });
   }
 };

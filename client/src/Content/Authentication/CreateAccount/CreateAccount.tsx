@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./CreateAccount.module.css";
 import Input from "../Components/Input/Input";
 import arrowback from "../../../svg/arrowback.svg";
 import { NavLink } from "react-router-dom";
-
+import { useAuth } from "../../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 function CreateAccount() {
+  const { registerUser } = useAuth();
+  const navigate = useNavigate();
+  const [newPassword, setNewPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    const success = await registerUser(email, password);
+    if (success) {
+      navigate("/login");
+    } else {
+      setError("Incorrect email or password");
+    }
+  };
   return (
     <div className={style.wrapper}>
       <div className={style.logo}>
@@ -24,14 +43,21 @@ function CreateAccount() {
             inputtype1="email"
             inputtext1="Your Email"
             inputtype2="password"
+            inputid1="email"
+            inputid2="password"
             inputtext2="Your Password"
             buttontext1="Create an account"
             buttontype1="submit"
-            navpath1="../login"
             label1="Your Email"
             label2="Your Password"
             classN="register"
             privacy="true"
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            handleSubmit={handleSubmit}
+            error={error}
           />
         </div>
       </div>
