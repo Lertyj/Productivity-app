@@ -107,7 +107,7 @@ export const getMe = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { oldPassword, newPassword } = req.body;
+    const { password, newPassword } = req.body;
 
     const user = await userModel.findOne({ email: req.body.email });
     if (!user) {
@@ -116,15 +116,6 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // Проверяем старый пароль
-    const isValidOldPass = await bcrypt.compare(oldPassword, user.passwordHash);
-    if (!isValidOldPass) {
-      return res.status(400).json({
-        message: "Неверный старый пароль",
-      });
-    }
-
-    // Проверяем новый пароль на совпадение со старым
     const isValidNewPass = await bcrypt.compare(newPassword, user.passwordHash);
     if (isValidNewPass) {
       return res.status(400).json({
@@ -132,7 +123,6 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    // Генерируем новый хеш пароля
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newPassword, salt);
 

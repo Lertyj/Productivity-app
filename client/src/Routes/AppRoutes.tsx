@@ -7,7 +7,6 @@ import Registration from "../Content/Authentication/Registration/Registration";
 import CreateAccount from "../Content/Authentication/CreateAccount/CreateAccount";
 import Home from "../Content/Home/Home";
 import { useAuth } from "../Context/AuthContext";
-import LoginForm from "../Content/Authentication/Login/Login2";
 import RegisterForm from "../Content/Authentication/Registration/RegistrationForm";
 
 function AppRoutes() {

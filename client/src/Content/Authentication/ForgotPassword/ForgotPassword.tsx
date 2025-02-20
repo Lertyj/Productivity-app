@@ -8,25 +8,27 @@ import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
+  const [reEnterPassword, setReEnterPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [error, setError] = useState("");
   const { resetPasswordUser } = useAuth();
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
-    const success = await resetPasswordUser(email, oldPassword, newPassword);
+    const success = await resetPasswordUser(
+      email,
+      newPassword,
+      reEnterPassword
+    );
     if (success) {
       setMessage("Пароль успешно изменен");
     } else {
       setMessage("Не удалось изменить пароль");
     }
   };
-
   return (
     <div className={style.wrapper}>
       <div className={style.logo}>
@@ -47,22 +49,22 @@ function ForgotPassword() {
             inputtype1="email"
             inputtext1="Enter your email"
             inputtype2="password"
-            inputtext2="Enter old password"
+            inputtext2="Enter new password"
             inputtype3="password"
-            inputtext3="Enter new password"
-            buttontext1="Submit"
-            buttontype1="submit"
+            inputtext3="Re-enter new password"
+            buttontext2="Submit"
+            buttontype2="submit"
+            navpath2="/login"
             inputid1="email"
-            inputid2="oldPassword"
-            inputid3="newPassword"
+            inputid2="newPassword"
+            inputid3="confirmPassword"
             email={email}
             setEmail={setEmail}
-            password={oldPassword}
-            setPassword={setOldPassword}
-            newPassword={newPassword}
+            password={newPassword}
             setNewPassword={setNewPassword}
-            handleSubmit={handleSubmit}
+            setReEnterPassword={setReEnterPassword}
             error={error}
+            handleSubmit={handleSubmit}
           />
         </div>
       </div>

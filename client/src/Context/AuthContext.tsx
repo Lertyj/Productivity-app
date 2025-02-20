@@ -34,10 +34,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const resetPasswordUser = async (
     email: string,
     newPassword: string,
-    oldPassword: string
+    reEnterPassword: string
   ) => {
     try {
-      const success = await resetPassword(email, newPassword, oldPassword);
+      const success = await resetPassword(email, newPassword, reEnterPassword);
       if (success) {
         console.log("Пароль успешно сброшен");
       } else {

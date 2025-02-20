@@ -7,12 +7,12 @@ interface InputProps {
   inputtype1: string;
   inputtype2: string;
   inputtype3?: string;
-  buttontype1: "button" | "submit" | "reset";
+  buttontype1?: "button" | "submit" | "reset";
   buttontype2?: "button" | "submit" | "reset";
   inputtext1: string;
   inputtext2: string;
   inputtext3?: string;
-  buttontext1: string;
+  buttontext1?: string;
   buttontext2?: string;
   forgotpassword?: string;
   label1?: string;
@@ -21,19 +21,23 @@ interface InputProps {
   classN?: string;
   privacy?: string;
   navpath2?: string;
+  confirmPassword?: string;
   inputid1: string;
   inputid2: string;
   inputid3?: string;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
-  password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  password?: string;
+  setPassword?: React.Dispatch<React.SetStateAction<string>>;
   newPassword?: string;
   setNewPassword?: React.Dispatch<React.SetStateAction<string>>;
+  setConfirmPassword?: React.Dispatch<React.SetStateAction<string>>;
   handleSubmit?: (e: React.FormEvent) => void;
   error?: string;
+  message?: string;
+  reEnterPassword?: string;
+  setReEnterPassword?: React.Dispatch<React.SetStateAction<string>>;
 }
-
 function Input({
   inputtype1,
   inputtype2,
@@ -62,7 +66,11 @@ function Input({
   newPassword,
   setNewPassword,
   handleSubmit,
+  confirmPassword,
   error,
+  message,
+  setReEnterPassword,
+  reEnterPassword,
 }: InputProps) {
   return (
     <form className={style.wrapper} onSubmit={handleSubmit}>
@@ -86,7 +94,13 @@ function Input({
           id={inputid2}
           placeholder={inputtext2}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            if (setPassword) {
+              setPassword(e.target.value);
+            } else if (setNewPassword) {
+              setNewPassword(e.target.value);
+            }
+          }}
           required
         />
       </div>
@@ -99,7 +113,9 @@ function Input({
             id={inputid3}
             placeholder={inputtext3}
             value={newPassword}
-            onChange={(e) => setNewPassword && setNewPassword(e.target.value)}
+            onChange={(e) =>
+              setReEnterPassword && setReEnterPassword(e.target.value)
+            }
             required
           />
         </div>
@@ -130,7 +146,14 @@ function Input({
           </div>
         )}
         <div className={style.buttons}>
-          <Button text={buttontext1} type={buttontype1} classN={classN} />
+          {buttontext1 && (
+            <Button
+              text={buttontext1}
+              type={buttontype1 || "submit"}
+              classN={classN}
+            />
+          )}
+
           {buttontext2 && (
             <NavLink to={navpath2 || ""}>
               <Button text={buttontext2} type={buttontype2 || "button"} />

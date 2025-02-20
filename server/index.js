@@ -7,7 +7,7 @@ import { registerValidation } from "./validations/auth.js";
 
 mongoose
   .connect(
-    "mongodb+srv://admin:wwwwww@cluster0.w1jmc.mongodb.net/todoapp?retryWrites=true&w=majority&appName=Cluster0"
+    "mongodb+srv://admin:www@todoapp.rq5k7.mongodb.net/?retryWrites=true&w=majority&appName=TodoApp"
   )
   .then(() => console.log("DB ok"))
   .catch((err) => console.log("DB error", err));
@@ -22,8 +22,9 @@ app.get("/", (req, res) => {
 
 app.post("/auth/register", registerValidation, UserController.register);
 app.post("/auth/login", registerValidation, UserController.login);
+
 app.get("/auth/me", checkAuth, UserController.getMe);
-app.post("/auth/resetpassword", checkAuth, UserController.resetPassword);
+app.post("/auth/resetpassword", UserController.resetPassword);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
