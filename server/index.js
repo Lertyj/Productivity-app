@@ -10,7 +10,6 @@ import {
 
 mongoose
   .connect(
-    // "mongodb+srv://admin:www@todoapp.rq5k7.mongodb.net/?retryWrites=true&w=majority&appName=TodoApp"
     "mongodb+srv://admin:www@cluster0.w1jmc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   )
   .then(() => console.log("DB ok"))

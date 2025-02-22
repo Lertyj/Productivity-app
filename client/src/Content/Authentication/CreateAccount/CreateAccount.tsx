@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./CreateAccount.module.css";
 import Input from "../Components/Input/Input";
 import arrowback from "../../../svg/arrowback.svg";
@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 function CreateAccount() {
   const { registerUser } = useAuth();
   const navigate = useNavigate();
-  const [newPassword, setNewPassword] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -24,6 +23,15 @@ function CreateAccount() {
       setError("Incorrect email or password");
     }
   };
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError("");
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
   return (
     <div className={style.wrapper}>
       <div className={style.logo}>

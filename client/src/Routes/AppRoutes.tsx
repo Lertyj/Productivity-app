@@ -7,7 +7,6 @@ import Registration from "../Content/Authentication/Registration/Registration";
 import CreateAccount from "../Content/Authentication/CreateAccount/CreateAccount";
 import Home from "../Content/Home/Home";
 import { useAuth } from "../Context/AuthContext";
-import RegisterForm from "../Content/Authentication/Registration/RegistrationForm";
 
 function AppRoutes() {
   const { isAuthenticated } = useAuth();

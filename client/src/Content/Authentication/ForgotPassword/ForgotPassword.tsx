@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./ForgotPassword.module.css";
 import Input from "../Components/Input/Input";
 import man from "../../../img/man.png";
@@ -25,11 +25,21 @@ function ForgotPassword() {
     );
     if (success) {
       setMessage("Пароль успешно изменен");
+      navigate("/login");
     } else {
       setError("Password change error");
       setMessage("Не удалось изменить пароль");
     }
   };
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError("");
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
   return (
     <div className={style.wrapper}>
       <div className={style.logo}>
@@ -55,9 +65,6 @@ function ForgotPassword() {
             inputtext3="Re-enter new password"
             buttontext1="Submit"
             buttontype1="submit"
-            buttontext2="Sign in"
-            buttontype2="submit"
-            navpath2="/login"
             inputid1="email"
             inputid2="newPassword"
             inputid3="reEnterPassword"

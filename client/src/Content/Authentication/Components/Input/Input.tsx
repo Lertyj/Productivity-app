@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import style from "./Input.module.css";
 import Button from "../Button/Button";
 import { NavLink } from "react-router-dom";
