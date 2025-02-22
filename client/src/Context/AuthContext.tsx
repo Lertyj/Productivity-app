@@ -8,7 +8,7 @@ interface AuthContextType {
   resetPasswordUser: (
     email: string,
     newPassword: string,
-    oldPassword: string
+    reEnterPassword: string
   ) => Promise<boolean>;
   logout: () => void;
 }
@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return success;
     } catch (error) {
       console.log("Ошибка при сбросе пароля:", error);
-      return false; // Возвращаем false в случае ошибки
+      return false;
     }
   };
 

@@ -26,6 +26,7 @@ function ForgotPassword() {
     if (success) {
       setMessage("Пароль успешно изменен");
     } else {
+      setError("Password change error");
       setMessage("Не удалось изменить пароль");
     }
   };
@@ -52,15 +53,16 @@ function ForgotPassword() {
             inputtext2="Enter new password"
             inputtype3="password"
             inputtext3="Re-enter new password"
-            buttontext2="Submit"
+            buttontext1="Submit"
+            buttontype1="submit"
+            buttontext2="Sign in"
             buttontype2="submit"
             navpath2="/login"
             inputid1="email"
             inputid2="newPassword"
-            inputid3="confirmPassword"
+            inputid3="reEnterPassword"
             email={email}
             setEmail={setEmail}
-            password={newPassword}
             setNewPassword={setNewPassword}
             setReEnterPassword={setReEnterPassword}
             error={error}

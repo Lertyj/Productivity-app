@@ -107,15 +107,24 @@ export const getMe = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { password, newPassword } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.array());
+    }
+    const { reEnterPassword, newPassword } = req.body;
 
     const user = await userModel.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({
-        message: "Пользователь не найдет",
+        message: "Пользователь не найден",
       });
     }
 
+    if (newPassword !== reEnterPassword) {
+      return res.status(403).json({
+        message: "Пароли должны совпадать",
+      });
+    }
     const isValidNewPass = await bcrypt.compare(newPassword, user.passwordHash);
     if (isValidNewPass) {
       return res.status(400).json({
@@ -126,9 +135,8 @@ export const resetPassword = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(newPassword, salt);
 
-    // Сохраняем новый хеш пароля
-    user.passwordHash = hash; // Присваиваем новый хеш пароля пользователю
-    await user.save(); // Сохраняем изменения в базе данных
+    user.passwordHash = hash;
+    await user.save();
 
     res.json({
       message: "Пароль успешно изменен",

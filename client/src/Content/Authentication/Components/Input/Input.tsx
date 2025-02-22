@@ -20,6 +20,7 @@ interface InputProps {
   label3?: string;
   classN?: string;
   privacy?: string;
+  navpath1?: string;
   navpath2?: string;
   confirmPassword?: string;
   inputid1: string;
@@ -55,6 +56,7 @@ function Input({
   label3,
   classN,
   privacy,
+  navpath1,
   navpath2,
   inputid1,
   inputid2,
@@ -93,7 +95,7 @@ function Input({
           type={inputtype2}
           id={inputid2}
           placeholder={inputtext2}
-          value={password}
+          value={newPassword}
           onChange={(e) => {
             if (setPassword) {
               setPassword(e.target.value);
@@ -112,53 +114,58 @@ function Input({
             type={inputtype3}
             id={inputid3}
             placeholder={inputtext3}
-            value={newPassword}
-            onChange={(e) =>
-              setReEnterPassword && setReEnterPassword(e.target.value)
-            }
+            value={reEnterPassword}
+            onChange={(e) => {
+              if (setReEnterPassword) setReEnterPassword(e.target.value);
+            }}
             required
           />
         </div>
       )}
-      {error && <p className={style.error}>{error}</p>}
-      {privacy && (
-        <div className={style.privacy}>
-          <button type="button" className={style.button}>
-            <label className={style.label}>
-              <input type="checkbox" className={style.real_checkbox} required />
-              <span className={style.custom_checkbox}></span>
-            </label>
-          </button>
-          <p>
-            I agree to{" "}
-            <span className={style.privacyspan}>Terms and Condition</span> and{" "}
-            <span className={style.privacyspan}>Privacy Policy</span>
-          </p>
-        </div>
-      )}
-
-      <div className={style.block}>
-        {forgotpassword && (
-          <div className={style.forgot_password}>
-            <NavLink to="/forgotpassword">
-              <button type="button">Forgot Password</button>
-            </NavLink>
+      <div className={style.error_buttons}>
+        {error && <p className={style.error}>{error}</p>}
+        {privacy && (
+          <div className={style.privacy}>
+            <button type="button" className={style.button}>
+              <label className={style.label}>
+                <input
+                  type="checkbox"
+                  className={style.real_checkbox}
+                  required
+                />
+                <span className={style.custom_checkbox}></span>
+              </label>
+            </button>
+            <p>
+              I agree to{" "}
+              <span className={style.privacyspan}>Terms and Condition</span> and{" "}
+              <span className={style.privacyspan}>Privacy Policy</span>
+            </p>
           </div>
         )}
-        <div className={style.buttons}>
-          {buttontext1 && (
-            <Button
-              text={buttontext1}
-              type={buttontype1 || "submit"}
-              classN={classN}
-            />
+        <div className={style.block}>
+          {forgotpassword && (
+            <div className={style.forgot_password}>
+              <NavLink to="/forgotpassword">
+                <button type="button">Forgot Password</button>
+              </NavLink>
+            </div>
           )}
+          <div className={style.buttons}>
+            {buttontext1 && (
+              <Button
+                text={buttontext1}
+                type={buttontype1 || "submit"}
+                classN={classN}
+              />
+            )}
 
-          {buttontext2 && (
-            <NavLink to={navpath2 || ""}>
-              <Button text={buttontext2} type={buttontype2 || "button"} />
-            </NavLink>
-          )}
+            {buttontext2 && (
+              <NavLink to={navpath2 || ""}>
+                <Button text={buttontext2} type={buttontype2 || "button"} />
+              </NavLink>
+            )}
+          </div>
         </div>
       </div>
     </form>

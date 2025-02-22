@@ -1,7 +1,8 @@
 // auth.js
 import { Router } from "express";
 import { body } from "express-validator";
-import { register } from "../controllers/UserController.js"; // Импортируйте вашу функцию регистрации
+import { register } from "../controllers/UserController.js";
+import { resetPassword } from "../controllers/UserController.js";
 
 const router = Router();
 
@@ -12,8 +13,12 @@ export const registerValidation = [
     min: 5,
   }),
 ];
-
-// Определите маршрут для регистрации с валидацией
+export const resetPasswordValidation = [
+  body("newPassword", "Пароль должен быть минимум 5 символов").isLength({
+    min: 5,
+  }),
+];
+router.post("/resetpassword", resetPasswordValidation, resetPassword);
 router.post("/register", registerValidation, register);
 
 export default router;
