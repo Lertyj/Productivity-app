@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const { loginUser } = useAuth();
   const navigate = useNavigate();
-  const [newPassword, setNewPassword] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,7 +15,6 @@ function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     const success = await loginUser(email, password);
     if (success) {
       navigate("/");

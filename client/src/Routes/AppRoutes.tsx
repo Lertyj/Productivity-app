@@ -22,8 +22,6 @@ function AppRoutes() {
         path="/registration"
         element={isAuthenticated ? <Home /> : <Registration />}
       />
-      {/* <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/registration" element={<Registration />} /> */}
       <Route
         path="/createaccount"
         element={isAuthenticated ? <Home /> : <CreateAccount />}

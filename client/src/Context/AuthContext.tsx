@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { login, register, resetPassword } from "../Api/Auth"; // Импортируйте resetPassword
 
 interface AuthContextType {
@@ -20,11 +20,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const checkToken = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  };
+
   const loginUser = async (email: string, password: string) => {
     const success = await login(email, password);
     setIsAuthenticated(success);
     return success;
   };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   const registerUser = async (email: string, password: string) => {
     const success = await register(email, password);
@@ -53,6 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem("token");
   };
 
   return (

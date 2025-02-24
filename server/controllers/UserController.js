@@ -70,7 +70,7 @@ export const login = async (req, res) => {
       },
       "secret123",
       {
-        expiresIn: "30d",
+        expiresIn: "3s",
       }
     );
 
@@ -81,7 +81,7 @@ export const login = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(5).json({
+    res.status(500).json({
       message: "Не удалось авторизоваться ",
     });
   }

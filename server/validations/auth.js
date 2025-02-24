@@ -1,12 +1,9 @@
-// auth.js
 import { Router } from "express";
 import { body } from "express-validator";
 import { register } from "../controllers/UserController.js";
 import { resetPassword } from "../controllers/UserController.js";
 
 const router = Router();
-
-// Валидация
 export const registerValidation = [
   body("email", "Неверный формат почты").isEmail(),
   body("password", "Пароль должен быть минимум 5 символов").isLength({
