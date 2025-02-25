@@ -2,18 +2,21 @@ import React from "react";
 import style from "./App.module.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "../Routes/AppRoutes";
-import { AuthProvider } from "../Context/AuthContext";
+import Header from "../Content/Home/Components/Header/Header";
+import Navbar from "../Content/Navigation/Navbar";
+import { useAuth } from "../Context/AuthContext";
 function App() {
+  const { isAuthenticated } = useAuth();
   return (
-    <AuthProvider>
-      <div className={style.wrapper}>
-        <Router>
-          <div className={style.content}>
-            <AppRoutes />
-          </div>
-        </Router>
-      </div>
-    </AuthProvider>
+    <div className={isAuthenticated ? style.wrapper : style.noauthwrapper}>
+      <Router>
+        {isAuthenticated && <Header name="Eugene Khudik" amount="5" />}
+        {isAuthenticated && <Navbar />}
+        <div className={style.content}>
+          <AppRoutes />
+        </div>
+      </Router>
+    </div>
   );
 }
 

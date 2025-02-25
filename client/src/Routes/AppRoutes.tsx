@@ -7,12 +7,16 @@ import Registration from "../Content/Authentication/Registration/Registration";
 import CreateAccount from "../Content/Authentication/CreateAccount/CreateAccount";
 import Home from "../Content/Home/Home";
 import { useAuth } from "../Context/AuthContext";
-
+import Profile from "../Content/Profile/Profile";
 function AppRoutes() {
   const { isAuthenticated } = useAuth();
   return (
     <Routes>
       <Route path="/" element={isAuthenticated ? <Home /> : <Start />} />
+      <Route
+        path="/profile"
+        element={isAuthenticated ? <Profile /> : <Start />}
+      />
       <Route path="/login" element={isAuthenticated ? <Home /> : <Login />} />
       <Route
         path="/forgotpassword"

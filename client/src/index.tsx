@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App/App";
 import "./index.css";
+import { AuthProvider } from "./Context/AuthContext";
 function RootComponent() {
   return (
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <AuthProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </AuthProvider>
   );
 }
 

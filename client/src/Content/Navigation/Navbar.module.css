@@ -1,0 +1,32 @@
+.wrapper{
+    background-color: var(--background_menu);
+    grid-area: n;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.item{
+    width: 45px;
+    height: auto;
+}
+.nav{
+    max-width: 80px;
+    height: 100%;
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly
+}
+.button{
+    cursor: pointer;
+}
+.container{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-bottom: 100px;
+}

@@ -6,6 +6,8 @@
 *{
     text-decoration: none;
     font-family: "Lexend";
+    padding: 0;
+    margin: 0;
 }
 h1{
     font-size: calc( (100vw - 360px)/(1920 - 360) * (50 - 40) + 40px);
@@ -15,6 +17,10 @@ h2{
 }
 h3{
     font-size: calc( (100vw - 360px)/(1920 - 360) * (36 - 20) + 20px);
+}
+h4{
+    font-weight: 100;
+    font-size: calc( (100vw - 360px)/(1920 - 360) * (28 - 18) + 20px);
 }
 p{
     font-size: calc( (100vw - 360px)/(1920 - 360) * (26 - 14) + 14px);
@@ -26,10 +32,17 @@ img{
     max-width: 100%;
     height: auto;
 }
+button{
+    background: none;
+    border:none;
+    cursor: pointer;
+}
 
 :root{
     --green: #5AD679;
     --purple: #763DD9;
     --button_green: #3BAF58;
     --button_color: #FFFFFF;
+    --background_menu: #F4F4F4;
+    --notification_number: #EC1D1D;
 }

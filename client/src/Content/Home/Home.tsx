@@ -1,15 +1,9 @@
 import React from "react";
-import { useAuth } from "../../Context/AuthContext";
+import style from "./Home.module.css";
+import { useNavigate } from "react-router-dom";
+import Header from "./Components/Header/Header";
 function Home() {
-  const { logout } = useAuth();
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-  };
-  return (
-    <div>
-      <button onClick={logout}>lol</button>
-    </div>
-  );
+  return <div></div>;
 }
 
 export default Home;
