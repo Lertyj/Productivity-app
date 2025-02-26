@@ -3,6 +3,8 @@
     background: var(--background_menu);
     grid-area: h;
     align-items: center;
+    height: 80px;
+    position: relative;
 }
 .header {
     width: 100%;
@@ -14,6 +16,9 @@
     height: 80px;
     background: var(--background_menu);
     z-index: 1000;
+}
+.profile{
+    text-wrap:nowrap;
 }
 .information {
     display: flex;
@@ -28,8 +33,8 @@
     align-items: center
 }
 .bell{
-    height: 35px;
-    width: 35px;
+    height: auto;
+    width:calc( (100vw - 360px)/(1920 - 360) * (35 - 25) + 25px);
 }
 .notifications{
     position: relative;
@@ -52,10 +57,31 @@
     cursor: pointer;
     font-size: small;
 }
-
+.avatar{
+    width: calc( (100vw - 360px)/(1920 - 360) * (75 - 50) + 50px);
+}
+.logo{
+    min-width: 52px;
+    width: calc( (100vw - 360px)/(1920 - 360) * (63 - 52) + 52px);
+}
 .button_profile{
     gap:10px;
     display: flex;
     flex-direction: row;
     align-items: center
+}
+
+@media screen and (max-width:768px) {
+    .logo{
+        display: none;
+    }
+    .content{
+        margin: 0 10px;
+        justify-content: flex-end;
+    }
+    .notifications{
+        margin-right: 10px;
+    }
+    
+    
 }
