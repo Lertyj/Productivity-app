@@ -39,7 +39,8 @@ async function handleApiError(response: Response, action: string) {
     );
   }
 
-  let errorDetail: any;
+  let errorDetail: { message?: string } | null = null;
+
   try {
     errorDetail = await response.json();
   } catch (e) {
