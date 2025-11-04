@@ -3,13 +3,14 @@ dotenv.config();
 import dbConnect from "./lib/dbConnect";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+
 import checkAuth from "./utils/checkAuth";
 import * as UserController from "./controllers/UserController";
 import {
   registerValidation,
   resetPasswordValidation,
 } from "./validations/AuthValidation";
-// import boardRoutes from "./routes/BoardRoutes";
+
 async function startServer() {
   try {
     await dbConnect();
@@ -20,19 +21,18 @@ async function startServer() {
   }
   const app = express();
   const corsOptions = {
-    origin: "http://localhost:3000", // Укажи домен твоего фронтенда
-    credentials: true, // Это ключевой момент для куки
+    origin: "http://localhost:3000",
+    credentials: true,
   };
 
   app.use(cors(corsOptions));
-  app.use(cors());
   app.use(express.json());
   app.use((req, res, next) => {
-    console.log(`${req.method} ${req.originalUrl}`);
+    console.log(`[LOCAL DEV] ${req.method} ${req.originalUrl}`);
     next();
   });
   app.get("/", (req: Request, res: Response) => {
-    res.send("Hello World from TypeScript Express!");
+    res.send("Hello World from Local TypeScript Express!");
   });
 
   app.post("/auth/register", registerValidation, UserController.register);
@@ -44,10 +44,10 @@ async function startServer() {
     resetPasswordValidation,
     UserController.resetPassword
   );
-  // app.use("/api", boardRoutes);
+
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack);
-    res.status(500).send("Что-то пошло не так на сервере!");
+    res.status(500).send("Что-то пошло не так на локальном сервере!");
   });
 
   const PORT = process.env.PORT || 4444;
@@ -57,7 +57,7 @@ async function startServer() {
   });
 
   server.on("error", (err: Error) => {
-    console.error("Ошибка при запуске сервера:", err);
+    console.error("Ошибка при запуске локального сервера:", err);
     process.exit(1);
   });
 }
