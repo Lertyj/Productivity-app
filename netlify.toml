@@ -1,36 +1,23 @@
-# Этот файл должен быть в корневом каталоге вашего репозитория.
-# Он устраняет конфликты путей и имен функций.
-
 [build]
-  # Базовая директория для сборки (корень репозитория).
-  base = "./"
-  # Путь для публикации фронтенда (папка build внутри client)
-  publish = "client/build"
-  
-  # Команда сборки: устанавливаем клиент, собираем клиент, устанавливаем сервер
-  command = "npm --prefix client install && npm run build --prefix client && npm --prefix server install"
-  
-# ---
-# Конфигурация Serverless-функций
-# ---
+base = "./"
+publish = "client/build"
+command = "npm --prefix client install && npm run build --prefix client && npm --prefix server install"
+
+---
+
 [functions]
-  # ПРЯМОЙ ПУТЬ к папке с функциями: server/netlify/functions
-  directory = "server/netlify/functions"
-  node_bundler = "esbuild"
-  external_node_modules = [
-    "express",
-    "serverless-http"
-  ]
+directory = "server/netlify/functions"
+node_bundler = "esbuild"
+
+---
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat" 
-  
-  status = 200
-  force = true
+from = "/api/*"
+to = "/.netlify/functions/api/:splat"
+status = 200
+force = true
 
-# SPA Fallback для роутинга React (если необходим)
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
