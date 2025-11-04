@@ -2,12 +2,12 @@
 
 [build]
   # Директория, где находится ваше React-приложение (клиент)
-  base = "client"
+  base = "./"
   # Путь для публикации (относительно 'base')
-  publish = "build"
+  publish = "client/build"
   
   # Оставляем только команду для сборки клиента, удаляя сложную команду для сервера.
-  command = "npm install && npm run build && cd ../server && npm install && cd ../ "
+  command = "cd client && npm install && npm run build && cd ../server && npm install && cd ../ "
   
   # !!! ИСПРАВЛЕНИЕ ДЛЯ ФУНКЦИЙ !!! 
   # Указываем путь к папке с функциями.
