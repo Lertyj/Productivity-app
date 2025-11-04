@@ -6,6 +6,7 @@ command = "npm --prefix client install && npm run build --prefix client && npm -
 [functions]
 directory = "netlify/functions"
 node_bundler = "esbuild"
+external_packages = ["bcrypt"]
 
 [[redirects]]
 from = "/api/*"

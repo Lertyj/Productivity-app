@@ -33,7 +33,7 @@ async function setupServer() {
       console.log("DB connection established (Serverless)");
       isDbConnected = true;
     } catch (err) {
-      console.log("DB connection error:", err);
+      console.error("DB connection error:", err);
     }
   }
 
