@@ -71,37 +71,36 @@ async function setupServer() {
     res.send("Hello World from Netlify Function!");
   });
 
-  const authRouter = express.Router();
-
-  authRouter.use(dbErrorMiddleware);
-
-  authRouter.post(
-    "/register",
+  app.post(
+    "/auth/register",
+    dbErrorMiddleware,
     registerValidation,
     UserController.register as RequestHandler
   );
-  authRouter.post(
-    "/login",
+  app.post(
+    "/auth/login",
+    dbErrorMiddleware,
     registerValidation,
     UserController.login as RequestHandler
   );
 
-  authRouter.get(
-    "/me",
+  app.get(
+    "/auth/me",
+    dbErrorMiddleware,
     checkAuth as RequestHandler,
     UserController.getMe as RequestHandler
   );
-  authRouter.post(
-    "/resetpassword",
+  app.post(
+    "/auth/resetpassword",
+    dbErrorMiddleware,
     resetPasswordValidation,
     UserController.resetPassword as RequestHandler
   );
 
-  app.use("/auth", authRouter);
-
   app.use((req: any, res: any) => {
+    console.log(`404 NOT FOUND: ${req.method} ${req.originalUrl}`);
     res.status(404).json({
-      message: "Route Not Found",
+      message: "Route Not Found in Function",
       path: req.originalUrl,
       success: false,
     });
