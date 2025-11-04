@@ -3,11 +3,9 @@ base = "./"
 publish = "client/build"
 command = "npm --prefix client install && npm run build --prefix client && npm --prefix server install"
 
-
 [functions]
-directory = "server/netlify/functions"
+directory = "netlify/functions"
 node_bundler = "esbuild"
-
 
 [[redirects]]
 from = "/api/*"
