@@ -1,38 +1,26 @@
-# netlify.toml в корне Productivity-app
+# Этот файл должен быть в корневом каталоге вашего репозитория.
 
-# 1. КОНФИГУРАЦИЯ СБОРКИ КЛИЕНТА
 [build]
-  # Указываем, что сборку нужно начинать из папки 'client'
+  # Директория, где находится ваше React-приложение (клиент)
   base = "client"
-  # Команда сборки клиента (запускается внутри папки 'client')
+  # Директория, куда собирается ваш фронтенд
+  publish = "client/build"
+  # Команда для сборки
   command = "npm install && npm run build"
-  # Папка, куда 'npm run build' кладет статику (например, 'build' или 'dist')
-  publish = "build" 
+  # Директория, где находятся ваши функции Netlify
+  functions = "client/netlify/functions"
 
-# 2. КОНФИГУРАЦИЯ SERVERLESS ФУНКЦИЙ
-[functions]
-  # Папка с нашими функциями (my-api.ts)
-  directory = "netlify/functions"
-  # ВАЖНО: Для TypeScript и ES Modules в Node.js 
-  # Netlify может потребовать дополнительные плагины или сборку, 
-  # но часто он справляется автоматически. Убедись, что твой tsconfig.json настроен для Node.
-  # Если будут ошибки, можно добавить [build.environment] NODE_VERSION = "18"
-  node_bundler = "esbuild"
-
-# 3. REDIRECTS (Перенаправление API-запросов на функцию)
-# Это позволяет клиенту отправлять запросы на /api/...
 [[redirects]]
-  # Любой запрос, начинающийся с /api/
+  # Указываем, что все запросы, начинающиеся с /api/,
+  # должны быть перенаправлены на Netlify Function.
+  
+  # Маршрут, который вызывает клиент (например, /api/auth/register)
   from = "/api/*"
-  # Перенаправляется на нашу функцию my-api с сохранением остальной части пути.
-  to = "/.netlify/functions/my-api/:splat"
+  
+  # ПУТЬ К ВАШЕЙ ФУНКЦИИ. 
+  # Мы исправляем 'my-api' на 'api', предполагая, что
+  # ваш файл функции называется api.ts (или api.js).
+  to = "/.netlify/functions/api/:splat"
+  
   status = 200
-  # Обязательно, чтобы Netlify не искал статический файл, начинающийся с /api/
   force = true
-
-# 4. SPA FALLBACK (для роутинга клиента)
-# Важно для React/Vue/Angular, чтобы при обновлении страницы не было 404
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
