@@ -1,7 +1,13 @@
-import { Handler, Context, HandlerEvent } from "@netlify/functions";
+import {
+  Handler,
+  Context,
+  HandlerEvent,
+  HandlerResponse,
+} from "@netlify/functions";
 import serverless from "serverless-http";
 import dotenv from "dotenv";
-import express, { Request, Response, NextFunction, Router } from "express";
+
+import express, { RequestHandler } from "express";
 import cors from "cors";
 
 import dbConnect from "../../server/lib/dbConnect";
@@ -17,7 +23,7 @@ dotenv.config();
 let cachedServer: serverless.Handler | null = null;
 let isDbConnected = false;
 
-const dbErrorMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const dbErrorMiddleware: RequestHandler = (req: any, res: any, next: any) => {
   if (!isDbConnected) {
     return res.status(503).json({
       message: "Service Unavailable: Database not connected.",
@@ -42,7 +48,7 @@ async function setupServer() {
         console.log("DB connection established (Serverless)");
         isDbConnected = true;
       } else {
-        console.error(
+        console.log(
           "DB_FATAL: Cannot connect to DB because MONGO_URI is missing from Netlify Environment Variables."
         );
       }
@@ -61,26 +67,39 @@ async function setupServer() {
   app.use(cors(corsOptions));
   app.use(express.json());
 
-  app.get("/", (req: Request, res: Response) => {
+  app.get("/", (req: any, res: any) => {
     res.send("Hello World from Netlify Function!");
   });
 
-  const authRouter: Router = express.Router();
+  const authRouter = express.Router();
 
   authRouter.use(dbErrorMiddleware);
 
-  authRouter.post("/register", registerValidation, UserController.register);
-  authRouter.post("/login", registerValidation, UserController.login);
-  authRouter.get("/me", checkAuth, UserController.getMe);
+  authRouter.post(
+    "/register",
+    registerValidation,
+    UserController.register as RequestHandler
+  );
+  authRouter.post(
+    "/login",
+    registerValidation,
+    UserController.login as RequestHandler
+  );
+
+  authRouter.get(
+    "/me",
+    checkAuth as RequestHandler,
+    UserController.getMe as RequestHandler
+  );
   authRouter.post(
     "/resetpassword",
     resetPasswordValidation,
-    UserController.resetPassword
+    UserController.resetPassword as RequestHandler
   );
 
   app.use("/auth", authRouter);
 
-  app.use((req: Request, res: Response) => {
+  app.use((req: any, res: any) => {
     res.status(404).json({
       message: "Route Not Found",
       path: req.originalUrl,
@@ -88,7 +107,7 @@ async function setupServer() {
     });
   });
 
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  app.use((err: Error, req: any, res: any, next: any) => {
     console.error("Serverless Global Error:", err.stack);
     res.status(500).json({
       message: "Serverless Error: Something went wrong!",
@@ -101,11 +120,8 @@ async function setupServer() {
   return cachedServer;
 }
 
-export const handler: Handler = async (
-  event: HandlerEvent,
-  context: Context
-) => {
+export const handler = (async (event: HandlerEvent, context: Context) => {
   const server = await setupServer();
 
-  return await server(event, context);
-};
+  return await server(event, context as any);
+}) as serverless.Handler;
