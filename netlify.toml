@@ -6,13 +6,13 @@
   publish = "build"
 
   command = "npm install && npm run build"
+  
 
-  functions = "server/netlify/functions" 
-
+  functions = "../server/netlify/functions" 
 
 [[redirects]]
   from = "/api/*"
-
+  
   to = "/.netlify/functions/my-api/:splat"
   
   status = 200
