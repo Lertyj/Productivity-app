@@ -6,11 +6,27 @@
   # Путь для публикации (относительно 'base')
   publish = "build"
   
-  # !!! КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Устанавливаем зависимости и для сервера, и для клиента !!!
-  command = "npm install && npm run build && cd ../server && npm install"
+  # Оставляем только команду для сборки клиента, удаляя сложную команду для сервера.
+  command = "npm install && npm run build"
   
-  # Путь к функциям, относительно корня репозитория.
+  # !!! ИСПРАВЛЕНИЕ ДЛЯ ФУНКЦИЙ !!! 
+  # Указываем путь к папке с функциями.
   functions = "server/netlify/functions" 
+
+# ---
+# Новая секция для управления бессерверными функциями Netlify
+# ---
+[functions]
+  # Netlify ищет файл package.json в папке функций, но поскольку 
+  # он находится в server/package.json, мы используем эту директиву,
+  # чтобы указать, что Express и serverless-http должны быть в сборке.
+  external_node_modules = [
+    "express",
+    "serverless-http"
+  ]
+  # Также убеждаемся, что Netlify использует Node.js для сборки функций:
+  node_bundler = "esbuild"
+  directory = "server/netlify/functions"
 
 [[redirects]]
   from = "/api/*"
