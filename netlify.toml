@@ -1,16 +1,21 @@
+# Этот файл должен быть в корневом каталоге вашего репозитория.
 
 [build]
+  # Директория, где находится ваше React-приложение (клиент)
   base = "client"
-
+  # Путь для публикации (относительно 'base')
   publish = "build"
-
-  command = "npm install && npm run build"
   
+  # !!! КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Устанавливаем зависимости и для сервера, и для клиента !!!
+  command = "npm install && npm run build && cd ../server && npm install"
+  
+  # Путь к функциям, относительно корня репозитория.
   functions = "server/netlify/functions" 
 
 [[redirects]]
   from = "/api/*"
-
+  
+  # Цель перенаправления совпадает с именем файла: 'my-api'
   to = "/.netlify/functions/my-api/:splat"
   
   status = 200
