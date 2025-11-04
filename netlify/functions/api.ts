@@ -70,7 +70,9 @@ async function setupServer() {
     console.error("Serverless Global Error:", err.stack);
     res.status(500).send("Serverless Error: Something went wrong!");
   });
-  cachedServer = serverless(app);
+  cachedServer = serverless(app, {
+    basePath: "/.netlify/functions/api",
+  });
   return cachedServer;
 }
 
