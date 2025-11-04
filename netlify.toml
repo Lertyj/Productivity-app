@@ -2,14 +2,14 @@
 
 [build]
   # Директория для выполнения команды сборки (корень репозитория)
-  base = "client"
+  base = "./"
   # Путь для публикации (относительно корневой директории)
   publish = "client/build"
   
   # !!! ИСПРАВЛЕННАЯ КОМАНДА: ИСПОЛЬЗУЕМ NPM PREFIX ДЛЯ ГАРАНТИРОВАННОЙ СБОРКИ !!!
   # 1. Устанавливаем зависимости клиента и собираем клиент.
   # 2. Устанавливаем зависимости сервера.
-  command = "npm install && npm run build"
+  command = "npm --prefix client install && npm run build --prefix client && npm --prefix server install"
   
   # Указываем путь к папке с функциями.
   functions = "client/../server/netlify/functions" 
