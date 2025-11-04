@@ -7,7 +7,7 @@
   publish = "build"
   
   # Оставляем только команду для сборки клиента, удаляя сложную команду для сервера.
-  command = "npm install && npm run build"
+  command = "npm install && npm run build && cd ../server && npm install && cd ../ "
   
   # !!! ИСПРАВЛЕНИЕ ДЛЯ ФУНКЦИЙ !!! 
   # Указываем путь к папке с функциями.
@@ -31,8 +31,8 @@
 [[redirects]]
   from = "/api/*"
   
-  # Цель перенаправления совпадает с именем файла: 'my-api'
-  to = "/.netlify/functions/my-api/:splat"
+
+  to = "/.netlify/functions/api/:splat"
   
   status = 200
   force = true
