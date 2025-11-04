@@ -6,7 +6,13 @@ async function login(email: string, password: string): Promise<boolean> {
     },
     body: JSON.stringify({ email, password }),
   });
-  return response.ok;
+
+  if (!response.ok) {
+    await handleApiError(response, "при входе в систему");
+    return false;
+  }
+
+  return true;
 }
 
 async function register(email: string, password: string): Promise<boolean> {
@@ -17,7 +23,38 @@ async function register(email: string, password: string): Promise<boolean> {
     },
     body: JSON.stringify({ email, password }),
   });
-  return response.ok;
+
+  if (!response.ok) {
+    await handleApiError(response, "при регистрации");
+    return false;
+  }
+
+  return true;
+}
+
+async function handleApiError(response: Response, action: string) {
+  if (response.status === 404) {
+    throw new Error(
+      `Ошибка 404: Маршрут API ${action} не найден. Проверьте конфигурацию Netlify.`
+    );
+  }
+
+  let errorDetail: any;
+  try {
+    errorDetail = await response.json();
+  } catch (e) {
+    throw new Error(
+      `API вернул неожиданный формат (не JSON). Статус: ${response.status}.`
+    );
+  }
+
+  const message = errorDetail?.message || "Неизвестная ошибка";
+
+  if (response.status === 403) {
+    throw new Error(`Нет доступа ${action}: проверьте свои права.`);
+  }
+
+  throw new Error(message);
 }
 
 async function resetPassword(
@@ -34,15 +71,11 @@ async function resetPassword(
   });
 
   if (!response.ok) {
-    const errorDetail = await response.json();
-    console.error("Ошибка при сбросе пароля:", errorDetail);
-    if (response.status === 403) {
-      throw new Error("Нет доступа: проверьте свои права");
-    }
-    throw new Error(errorDetail.message || "Неизвестная ошибка");
+    await handleApiError(response, "при сбросе пароля");
+    return false;
   }
 
-  return response.ok;
+  return true;
 }
 
 export { login, register, resetPassword };
