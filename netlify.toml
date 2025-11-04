@@ -1,27 +1,19 @@
-# Этот файл должен быть в корневом каталоге вашего репозитория.
 
 [build]
-  # Директория, где находится ваше React-приложение (клиент)
+
   base = "client"
-  # Директория, куда собирается ваш фронтенд. 
-  # Путь указывается относительно 'base', поэтому просто 'build'.
+
   publish = "build"
-  # Команда для сборки
+
   command = "npm install && npm run build"
-  # Директория, где находятся ваши функции Netlify
-  functions = "client/netlify/functions"
+
+  functions = "server/netlify/functions" 
+
 
 [[redirects]]
-  # Указываем, что все запросы, начинающиеся с /api/,
-  # должны быть перенаправлены на Netlify Function.
-  
-  # Маршрут, который вызывает клиент (например, /api/auth/register)
   from = "/api/*"
-  
-  # ПУТЬ К ВАШЕЙ ФУНКЦИИ. 
-  # Мы исправляем 'my-api' на 'api', предполагая, что
-  # ваш файл функции называется api.ts (или api.js).
-  to = "/.netlify/functions/api/:splat"
+
+  to = "/.netlify/functions/my-api/:splat"
   
   status = 200
   force = true
