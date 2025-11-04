@@ -6,14 +6,7 @@ async function login(email: string, password: string): Promise<boolean> {
     },
     body: JSON.stringify({ email, password }),
   });
-
-  if (response.ok) {
-    const data = await response.json();
-    localStorage.setItem("token", data.token);
-    return true;
-  }
-
-  return false;
+  return response.ok;
 }
 
 async function register(email: string, password: string): Promise<boolean> {
@@ -44,7 +37,7 @@ async function resetPassword(
     const errorDetail = await response.json();
     console.error("Ошибка при сбросе пароля:", errorDetail);
     if (response.status === 403) {
-      throw new Error("Нет доступа: проверьте свои права"); // Добавьте более подробную информацию об ошибке
+      throw new Error("Нет доступа: проверьте свои права");
     }
     throw new Error(errorDetail.message || "Неизвестная ошибка");
   }

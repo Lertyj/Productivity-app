@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { login, register, resetPassword } from "../Api/Auth"; // Импортируйте resetPassword
+import { login, register, resetPassword } from "../Api/Auth";
 
 interface AuthContextType {
   isAuthenticated: boolean;
