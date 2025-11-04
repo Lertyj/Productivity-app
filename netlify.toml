@@ -24,8 +24,6 @@
 
 [[redirects]]
   from = "/api/*"
-  
-  # ФИКС: Перенаправляем на функцию 'api' (СООТВЕТСТВУЕТ ФАЙЛУ api.ts).
   to = "/.netlify/functions/api/:splat" 
   
   status = 200

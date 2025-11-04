@@ -1,13 +1,12 @@
-import {
-  Handler,
-  Context,
-  HandlerEvent,
-  HandlerResponse,
-} from "@netlify/functions";
+import { Handler, Context, HandlerEvent } from "@netlify/functions";
 import serverless from "serverless-http";
 import dotenv from "dotenv";
-
-import express, { RequestHandler } from "express";
+import express, {
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler,
+} from "express";
 import cors from "cors";
 
 import dbConnect from "../../server/lib/dbConnect";
@@ -23,38 +22,18 @@ dotenv.config();
 let cachedServer: serverless.Handler | null = null;
 let isDbConnected = false;
 
-const dbErrorMiddleware: RequestHandler = (req: any, res: any, next: any) => {
-  if (!isDbConnected) {
-    return res.status(503).json({
-      message: "Service Unavailable: Database not connected.",
-      success: false,
-    });
-  }
-  next();
-};
-
 async function setupServer() {
   if (cachedServer) {
     return cachedServer;
   }
 
   if (!isDbConnected) {
-    const mongoUriPresent = !!process.env.MONGO_URI;
-    console.log(`[MY-API DEBUG] MONGO_URI is set: ${mongoUriPresent}`);
-
     try {
-      if (mongoUriPresent) {
-        await dbConnect();
-        console.log("DB connection established (Serverless)");
-        isDbConnected = true;
-      } else {
-        console.log(
-          "DB_FATAL: Cannot connect to DB because MONGO_URI is missing from Netlify Environment Variables."
-        );
-      }
+      await dbConnect();
+      console.log("DB connection established (Serverless)");
+      isDbConnected = true;
     } catch (err) {
-      console.error("DB connection error:", (err as Error).stack);
-      isDbConnected = false;
+      console.log("DB connection error:", err);
     }
   }
 
@@ -66,61 +45,37 @@ async function setupServer() {
 
   app.use(cors(corsOptions));
   app.use(express.json());
-
-  app.get("/", (req: any, res: any) => {
-    res.send("Hello World from Netlify Function!");
+  app.get("/", (req: Request, res: Response) => {
+    res.send("Hello World from Productivity-app Netlify Function!");
   });
 
   app.post(
     "/auth/register",
-    dbErrorMiddleware,
-    registerValidation,
-    UserController.register as RequestHandler
+    ...(registerValidation as RequestHandler[]),
+    UserController.register as any
   );
   app.post(
     "/auth/login",
-    dbErrorMiddleware,
-    registerValidation,
-    UserController.login as RequestHandler
+    ...(registerValidation as RequestHandler[]),
+    UserController.login as any
   );
 
-  app.get(
-    "/auth/me",
-    dbErrorMiddleware,
-    checkAuth as RequestHandler,
-    UserController.getMe as RequestHandler
-  );
+  app.get("/auth/me", checkAuth as any, UserController.getMe as any);
   app.post(
     "/auth/resetpassword",
-    dbErrorMiddleware,
-    resetPasswordValidation,
-    UserController.resetPassword as RequestHandler
+    ...(resetPasswordValidation as RequestHandler[]),
+    UserController.resetPassword as any
   );
-
-  app.use((req: any, res: any) => {
-    console.log(`404 NOT FOUND: ${req.method} ${req.originalUrl}`);
-    res.status(404).json({
-      message: "Route Not Found in Function",
-      path: req.originalUrl,
-      success: false,
-    });
-  });
-
-  app.use((err: Error, req: any, res: any, next: any) => {
+  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error("Serverless Global Error:", err.stack);
-    res.status(500).json({
-      message: "Serverless Error: Something went wrong!",
-      error: err.message,
-      success: false,
-    });
+    res.status(500).send("Serverless Error: Something went wrong!");
   });
-
   cachedServer = serverless(app);
   return cachedServer;
 }
 
-export const handler = (async (event: HandlerEvent, context: Context) => {
+export const handler = async (event: HandlerEvent, context: Context) => {
   const server = await setupServer();
-
-  return await server(event, context as any);
-}) as serverless.Handler;
+  const result = await server(event, context as any);
+  return result;
+};
