@@ -1,19 +1,19 @@
 
 [build]
 
-  base = "client"
+  base = "/"
 
-  publish = "build"
+  publish = "/client/build"
 
-  command = "npm install && npm run build"
+  command = "cd client && npm install && npm run build && cd ../"
   
 
-  functions = "../server/netlify/functions" 
+  functions = "server/netlify/functions" 
 
 [[redirects]]
   from = "/api/*"
   
-  to = "/.netlify/functions/my-api/:splat"
+  to = "/.netlify/functions/api/:splat"
   
   status = 200
   force = true
