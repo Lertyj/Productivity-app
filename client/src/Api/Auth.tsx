@@ -1,5 +1,5 @@
 async function login(email: string, password: string): Promise<boolean> {
-  const response = await fetch("http://localhost:4444/auth/login", {
+  const response = await fetch("/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -10,7 +10,7 @@ async function login(email: string, password: string): Promise<boolean> {
 }
 
 async function register(email: string, password: string): Promise<boolean> {
-  const response = await fetch("http://localhost:4444/auth/register", {
+  const response = await fetch("/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +25,7 @@ async function resetPassword(
   newPassword: string,
   reEnterPassword: string
 ): Promise<boolean> {
-  const response = await fetch("http://localhost:4444/auth/resetpassword", {
+  const response = await fetch("/api/auth/resetpassword", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

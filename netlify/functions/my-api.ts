@@ -23,12 +23,21 @@ async function setupServer() {
   }
 
   if (!isDbConnected) {
+    const mongoUriPresent = !!process.env.MONGO_URI;
+    console.log(`[MY-API DEBUG] MONGO_URI is set: ${mongoUriPresent}`);
+
     try {
-      await dbConnect();
-      console.log("DB connection established (Serverless)");
-      isDbConnected = true;
+      if (mongoUriPresent) {
+        await dbConnect();
+        console.log("DB connection established (Serverless)");
+        isDbConnected = true;
+      } else {
+        console.error(
+          "DB_FATAL: Cannot connect to DB because MONGO_URI is missing from Netlify Environment Variables."
+        );
+      }
     } catch (err) {
-      console.error("DB connection error:", err);
+      console.error("DB connection error:", (err as Error).stack);
     }
   }
 

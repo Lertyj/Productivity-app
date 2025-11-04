@@ -22,7 +22,7 @@ const Board: React.FC<BoardProps> = ({ boardId }) => {
   const [showAddColumnForm, setShowAddColumnForm] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
-  const BASE_URL = "http://localhost:4444/api";
+  const BASE_URL = "/api";
 
   const fetchBoard = async () => {
     setLoading(true);
