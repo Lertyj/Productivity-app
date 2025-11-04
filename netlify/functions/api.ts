@@ -71,7 +71,7 @@ async function setupServer() {
     res.status(500).send("Serverless Error: Something went wrong!");
   });
   cachedServer = serverless(app, {
-    basePath: "/.netlify/functions/api",
+    basePath: "/api",
   });
   return cachedServer;
 }
