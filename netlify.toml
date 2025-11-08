@@ -1,38 +1,21 @@
-# netlify.toml в корне Productivity-app
-
-# 1. КОНФИГУРАЦИЯ СБОРКИ КЛИЕНТА
 [build]
-  # Указываем, что сборку нужно начинать из папки 'client'
-  base = "client"
-  # Команда сборки клиента (запускается внутри папки 'client')
-  command = "npm install && npm run build"
-  # Папка, куда 'npm run build' кладет статику (например, 'build' или 'dist')
-  publish = "build" 
+base = "./"
+publish = "client/build"
+command = "npm --prefix client install && npm run build --prefix client && npm --prefix server install"
 
-# 2. КОНФИГУРАЦИЯ SERVERLESS ФУНКЦИЙ
 [functions]
-  # Папка с нашими функциями (my-api.ts)
-  directory = "netlify/functions"
-  # ВАЖНО: Для TypeScript и ES Modules в Node.js 
-  # Netlify может потребовать дополнительные плагины или сборку, 
-  # но часто он справляется автоматически. Убедись, что твой tsconfig.json настроен для Node.
-  # Если будут ошибки, можно добавить [build.environment] NODE_VERSION = "18"
-  node_bundler = "esbuild"
+directory = "netlify/functions"
+node_bundler = "esbuild"
+[functions.external_packages]
+external_node_modules = ["bcrypt"]
 
-# 3. REDIRECTS (Перенаправление API-запросов на функцию)
-# Это позволяет клиенту отправлять запросы на /api/...
 [[redirects]]
-  # Любой запрос, начинающийся с /api/
-  from = "/api/*"
-  # Перенаправляется на нашу функцию my-api с сохранением остальной части пути.
-  to = "/.netlify/functions/my-api/:splat"
-  status = 200
-  # Обязательно, чтобы Netlify не искал статический файл, начинающийся с /api/
-  force = true
+from = "/api/*"
+to = "/.netlify/functions/api/:splat"
+status = 200
+force = true
 
-# 4. SPA FALLBACK (для роутинга клиента)
-# Важно для React/Vue/Angular, чтобы при обновлении страницы не было 404
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
