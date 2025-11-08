@@ -35,15 +35,18 @@ async function startServer() {
     res.send("Hello World from Local TypeScript Express!");
   });
 
-  app.post("/auth/register", registerValidation, UserController.register);
-  app.post("/auth/login", registerValidation, UserController.login);
+  const authRouter = express.Router();
 
-  app.get("/auth/me", checkAuth, UserController.getMe);
-  app.post(
-    "/auth/resetpassword",
+  authRouter.post("/register", registerValidation, UserController.register);
+  authRouter.post("/login", registerValidation, UserController.login);
+  authRouter.get("/me", checkAuth, UserController.getMe);
+  authRouter.post(
+    "/resetpassword",
     resetPasswordValidation,
     UserController.resetPassword
   );
+
+  app.use("/auth", authRouter);
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack);
