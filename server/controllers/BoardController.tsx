@@ -1,57 +1,41 @@
-// import { Router, Request, Response } from "express";
-// import { authMiddleware } from "../middleware/AuthMiddleware";
-// import BoardModel from "../models/Board";
-// import { IBoard, CreateBoardRequestBody } from "../types/Type";
+import { Request, Response } from "express";
+import { validationResult } from "express-validator";
+import BoardModel from "../models/Board";
+import ColumnModel from "../models/Column";
+import TaskModel from "../models/Task";
+import { IBoard, IColumn, ITask } from "../types/Type";
+import { Types } from "mongoose";
 
-// const router = Router();
+const handleValidationErrors = (
+  req: Request,
+  res: Response,
+): boolean | null => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json(errors.array());
+    return true;
+  }
+  return null;
+};
 
-// declare module "express-serve-static-core" {
-//   interface Request {
-//     user?: {
-//       _id: string;
-//     };
-//   }
-// }
+export const createBoard = async (req: Request, res: Response) => {
+  try {
+    const userId = req.userId;
 
-// router.post(
-//   "/api/boards",
-//   authMiddleware,
-//   async (
-//     req: Request<{}, {}, CreateBoardRequestBody>,
-//     res: Response
-//   ): Promise<void> => {
-//     try {
-//       const userId = req.user?._id;
+    const { title } = req.body;
 
-//       if (!userId) {
-//         res.status(401).json({ message: "Нет доступа к ID пользователя." });
-//         return;
-//       }
+    const doc = new BoardModel<IBoard>({
+      title,
 
-//       const { title, description } = req.body;
+      owner: new Types.ObjectId(userId),
+      columnIds: [],
+    });
 
-//       const newBoard: IBoard = new BoardModel({
-//         title,
-//         description,
-//         owner: userId,
-//       });
+    const board = await doc.save();
 
-//       await newBoard.save();
-
-//       res.status(201).json({
-//         success: true,
-//         board: newBoard,
-//         message: "Доска успешно создана!",
-//       });
-//     } catch (err: unknown) {
-//       if (err instanceof Error) {
-//         console.error(err.message);
-//         res.status(500).send("Ошибка сервера: " + err.message);
-//       } else {
-//         res.status(500).send("Неизвестная ошибка сервера.");
-//       }
-//     }
-//   }
-// );
-
-// export default router;
+    res.status(201).json(board);
+  } catch (err) {
+    console.error("Error creating board:", err);
+    res.status(500).json({ message: "Could not create board" });
+  }
+};

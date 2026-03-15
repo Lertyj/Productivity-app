@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { login, register, resetPassword } from "../Api/Auth";
+import { login, register, resetPassword, getMe } from "../Api/Auth";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -19,23 +19,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const checkToken = async () => {
+    console.log("Проверяем статус авторизации...");
+    const isLogged = await getMe();
 
-  const checkToken = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuthenticated(true);
-    }
+    console.log("Результат проверки:", isLogged);
+
+    setIsAuthenticated(isLogged);
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   const loginUser = async (email: string, password: string) => {
     const success = await login(email, password);
     setIsAuthenticated(success);
     return success;
   };
-
-  useEffect(() => {
-    checkToken();
-  }, []);
 
   const registerUser = async (email: string, password: string) => {
     const success = await register(email, password);
@@ -64,7 +67,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem("token");
   };
 
   return (

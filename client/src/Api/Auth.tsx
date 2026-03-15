@@ -1,21 +1,28 @@
-const BASE_URL = process.env.REACT_APP_API_URL || "/api";
-async function login(email: string, password: string): Promise<boolean> {
+const BASE_URL = "http://localhost:4444";
+
+export async function login(email: string, password: string) {
   const response = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
+    credentials: "include",
   });
-
-  if (!response.ok) {
-    await handleApiError(response, "при входе в систему");
-    return false;
-  }
-
-  return true;
+  return response.json();
 }
 
+export async function getMe(): Promise<boolean> {
+  try {
+    const response = await fetch(`${BASE_URL}/auth/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const result = await response.json();
+    return result.success === true;
+  } catch (error) {
+    return false;
+  }
+}
 async function register(email: string, password: string): Promise<boolean> {
   const response = await fetch(`${BASE_URL}/auth/register`, {
     method: "POST",
@@ -36,7 +43,7 @@ async function register(email: string, password: string): Promise<boolean> {
 async function handleApiError(response: Response, action: string) {
   if (response.status === 404) {
     throw new Error(
-      `Ошибка 404: Маршрут API ${action} не найден. Проверьте конфигурацию Netlify.`
+      `Ошибка 404: Маршрут API ${action} не найден. Проверьте конфигурацию Netlify.`,
     );
   }
 
@@ -46,7 +53,7 @@ async function handleApiError(response: Response, action: string) {
     errorDetail = await response.json();
   } catch (e) {
     throw new Error(
-      `API вернул неожиданный формат (не JSON). Статус: ${response.status}.`
+      `API вернул неожиданный формат (не JSON). Статус: ${response.status}.`,
     );
   }
 
@@ -62,7 +69,7 @@ async function handleApiError(response: Response, action: string) {
 async function resetPassword(
   email: string,
   newPassword: string,
-  reEnterPassword: string
+  reEnterPassword: string,
 ): Promise<boolean> {
   const response = await fetch(`${BASE_URL}/auth/resetpassword`, {
     method: "POST",
@@ -80,4 +87,4 @@ async function resetPassword(
   return true;
 }
 
-export { login, register, resetPassword };
+export { register, resetPassword };

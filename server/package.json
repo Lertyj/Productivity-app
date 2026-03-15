@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon --exec \"dotenv -e .env.local -- tsx index.tsx\"",
+    "dev": "ts-node-dev --respawn --transpile-only --clear --ignore-watch node_modules index.tsx",
     "serve": "nodemon dist/index.js",
     "clean": "rm -rf dist"
   },
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
     "@types/express-validator": "^3.0.2",
@@ -35,6 +36,7 @@
     "@types/mongoose": "^5.11.97",
     "dotenv-cli": "^8.0.0",
     "nodemon": "^3.1.10",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0"
   }
 }

@@ -28,7 +28,6 @@ export interface IColumnDocument extends IColumn, Document {}
 
 export interface IBoard {
   title: string;
-  description?: string;
   owner: Types.ObjectId;
   columnIds: Types.ObjectId[];
 }
@@ -66,6 +65,5 @@ export interface JwtPayload {
   _id: string;
 }
 export interface CreateBoardRequestBody {
-  title: string;
-  description?: string;
+  name: string;
 }

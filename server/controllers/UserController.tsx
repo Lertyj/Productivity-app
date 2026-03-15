@@ -16,7 +16,7 @@ type ControllerError = Error | unknown;
 
 export const register = async (
   req: Request<{}, {}, RegisterRequestBody>,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const errors = validationResult(req);
@@ -51,13 +51,9 @@ export const register = async (
     const user: UserDocument = await doc.save();
 
     const token = jwt.sign(
-      {
-        _id: user._id.toString(),
-      },
-      process.env.JWT_SECRET || "fallbackSecret",
-      {
-        expiresIn: "30d",
-      }
+      { _id: user._id.toString() },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "30d" },
     );
 
     res.cookie("jwt", token, {
@@ -87,7 +83,7 @@ export const register = async (
 
 export const login = async (
   req: Request<{}, {}, LoginRequestBody>,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const user: UserDocument | null = await UserModel.findOne({
@@ -103,7 +99,7 @@ export const login = async (
 
     const isValidPass = await bcrypt.compare(
       req.body.password,
-      user.passwordHash
+      user.passwordHash,
     );
 
     if (!isValidPass) {
@@ -120,13 +116,9 @@ export const login = async (
     }
 
     const token = jwt.sign(
-      {
-        _id: user._id.toString(),
-      } as JwtPayload,
-      jwtSecret,
-      {
-        expiresIn: "30d",
-      }
+      { _id: user._id.toString() },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "30d" },
     );
 
     res.cookie("jwt", token, {
@@ -192,7 +184,7 @@ export const getMe = async (req: Request, res: Response): Promise<void> => {
 
 export const resetPassword = async (
   req: Request<{}, {}, ResetPasswordRequestBody>,
-  res: Response
+  res: Response,
 ): Promise<void> => {
   try {
     const errors = validationResult(req);

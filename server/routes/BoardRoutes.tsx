@@ -1,27 +1,19 @@
-// import { Router } from "express";
-// import * as BoardController from "../controllers/BoardController";
-// import {
-//   createBoardValidation,
-//   updateBoardValidation,
-// } from "../validations/BoardValidation";
-// import {
-//   createColumnValidation,
-//   updateColumnValidation,
-// } from "../validations/ColumnValidation";
-// import {
-//   createTaskValidation,
-//   updateTaskValidation,
-// } from "../validations/TaskValidation";
-// import checkAuth from "../utils/checkAuth";
+import { Router } from "express";
+import * as BoardController from "../controllers/BoardController";
+import { updateBoardValidation } from "../validations/BoardValidation";
+import {
+  createColumnValidation,
+  updateColumnValidation,
+} from "../validations/ColumnValidation";
+import {
+  createTaskValidation,
+  updateTaskValidation,
+} from "../validations/TaskValidation";
+import checkAuth from "../utils/checkAuth";
 
-// const router = Router();
+const router = Router();
 
-// router.post(
-//   "/boards",
-//   checkAuth,
-//   createBoardValidation,
-//   BoardController.createBoard
-// );
+router.post("/boards", checkAuth, BoardController.createBoard);
 // router.get("/boards", checkAuth, BoardController.getBoards);
 // router.get("/boards/:id", checkAuth, BoardController.getBoardById);
 // router.patch(
@@ -72,4 +64,4 @@
 //   BoardController.getTasksByColumnId
 // );
 
-// export default router;
+export default router;
