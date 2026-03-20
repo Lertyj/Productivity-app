@@ -50,6 +50,10 @@ async function startServer() {
     resetPasswordValidation,
     UserController.resetPassword,
   );
+  authRouter.post("/logout", (req, res) => {
+    res.clearCookie("jwt");
+    res.json({ success: true });
+  });
   app.use("/auth", authRouter);
   app.use("/api", boardRouter);
 

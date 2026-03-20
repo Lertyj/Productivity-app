@@ -11,7 +11,6 @@ export const createBoard = async (boardName: string): Promise<Board> => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
 
       body: JSON.stringify({ title: boardName }),

@@ -147,38 +147,15 @@ export const login = async (
 
 export const getMe = async (req: Request, res: Response): Promise<void> => {
   try {
-    if (!req.userId) {
-      res.status(401).json({
-        success: false,
-        message: "Нет доступа. Пользователь не аутентифицирован.",
-      });
-      return;
-    }
-
-    const user: UserDocument | null = await UserModel.findById(req.userId);
+    const user = await UserModel.findById(req.userId);
     if (!user) {
-      res.status(404).json({
-        success: false,
-        message: "Пользователь не найден",
-      });
+      res.status(200).json({ success: false, message: "User not found" });
       return;
     }
     const { passwordHash, ...userData } = user.toObject();
-    res.json({
-      success: true,
-      data: userData as UserResponseData,
-    });
-    return;
-  } catch (err: ControllerError) {
-    console.error("Error getting user data:", err);
-    const errorMessage =
-      err instanceof Error ? err.message : "An unknown error occurred.";
-    res.status(500).json({
-      success: false,
-      message: "Нет доступа",
-      error: errorMessage,
-    });
-    return;
+    res.json({ success: true, data: userData });
+  } catch (err) {
+    res.status(200).json({ success: false });
   }
 };
 

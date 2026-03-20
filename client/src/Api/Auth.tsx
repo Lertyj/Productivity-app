@@ -1,90 +1,115 @@
-const BASE_URL = "http://localhost:4444";
+import { AuthResponse } from "../Context/Type";
 
-export async function login(email: string, password: string) {
-  const response = await fetch(`${BASE_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-    credentials: "include",
-  });
-  return response.json();
+const BASE_URL = process.env.REACT_APP_API_URL;
+async function handleResponse(response: Response): Promise<AuthResponse> {
+  try {
+    const data = await response.json();
+
+    if (!response.ok) {
+      const data = await response.json();
+      return {
+        success: false,
+        message: data.message || "Необходима авторизация",
+      };
+    }
+
+    return {
+      success: true,
+      message: data.message || "Операция прошла успешно",
+      data: data.data,
+    };
+  } catch (e) {
+    return {
+      success: false,
+      message: "Ошибка обработки данных с сервера",
+    };
+  }
 }
 
-export async function getMe(): Promise<boolean> {
+export async function login(
+  email: string,
+  password: string,
+): Promise<AuthResponse> {
+  try {
+    const response = await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    return { success: false, message: "Сервер недоступен" };
+  }
+}
+
+export async function getMe(): Promise<AuthResponse> {
   try {
     const response = await fetch(`${BASE_URL}/auth/me`, {
       method: "GET",
       credentials: "include",
     });
-
-    const result = await response.json();
-    return result.success === true;
+    return await handleResponse(response);
   } catch (error) {
-    return false;
+    return {
+      success: false,
+      message: "Не удалось проверить статус авторизации",
+    };
   }
 }
-async function register(email: string, password: string): Promise<boolean> {
-  const response = await fetch(`${BASE_URL}/auth/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
 
-  if (!response.ok) {
-    await handleApiError(response, "при регистрации");
-    return false;
-  }
-
-  return true;
-}
-
-async function handleApiError(response: Response, action: string) {
-  if (response.status === 404) {
-    throw new Error(
-      `Ошибка 404: Маршрут API ${action} не найден. Проверьте конфигурацию Netlify.`,
-    );
-  }
-
-  let errorDetail: { message?: string } | null = null;
-
+export async function register(
+  email: string,
+  password: string,
+): Promise<AuthResponse> {
   try {
-    errorDetail = await response.json();
-  } catch (e) {
-    throw new Error(
-      `API вернул неожиданный формат (не JSON). Статус: ${response.status}.`,
-    );
+    const response = await fetch(`${BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    return { success: false, message: "Ошибка при регистрации" };
   }
-
-  const message = errorDetail?.message || "Неизвестная ошибка";
-
-  if (response.status === 403) {
-    throw new Error(`Нет доступа ${action}: проверьте свои права.`);
-  }
-
-  throw new Error(message);
 }
 
-async function resetPassword(
+export async function resetPassword(
   email: string,
   newPassword: string,
   reEnterPassword: string,
-): Promise<boolean> {
-  const response = await fetch(`${BASE_URL}/auth/resetpassword`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, newPassword, reEnterPassword }),
-  });
-
-  if (!response.ok) {
-    await handleApiError(response, "при сбросе пароля");
-    return false;
+): Promise<AuthResponse> {
+  try {
+    const response = await fetch(`${BASE_URL}/auth/resetpassword`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, newPassword, reEnterPassword }),
+      credentials: "include",
+    });
+    return await handleResponse(response);
+  } catch (error) {
+    return { success: false, message: "Ошибка при смене пароля" };
   }
-
-  return true;
 }
 
-export { register, resetPassword };
+export async function logoutApi(): Promise<AuthResponse> {
+  try {
+    const response = await fetch(`${BASE_URL}/auth/logout`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const result = await handleResponse(response);
+
+    return result;
+  } catch (error) {
+    return {
+      success: false,
+      message: "Ошибка при выходе из системы",
+    };
+  }
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Start from "../Content/Authentication/Start/Start";
 import Login from "../Content/Authentication/Login/Login";
 import ForgotPassword from "../Content/Authentication/ForgotPassword/ForgotPassword";
@@ -8,28 +8,40 @@ import CreateAccount from "../Content/Authentication/CreateAccount/CreateAccount
 import Home from "../Content/Home/Home";
 import { useAuth } from "../Context/AuthContext";
 import Profile from "../Content/Profile/Profile";
+
 function AppRoutes() {
   const { isAuthenticated } = useAuth();
+
   return (
     <Routes>
       <Route path="/" element={isAuthenticated ? <Home /> : <Start />} />
+
       <Route
         path="/profile"
-        element={isAuthenticated ? <Profile /> : <Start />}
+        element={isAuthenticated ? <Profile /> : <Navigate to="/" />}
       />
-      <Route path="/login" element={isAuthenticated ? <Home /> : <Login />} />
+
+      <Route
+        path="/login"
+        element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
+      />
+
       <Route
         path="/forgotpassword"
-        element={isAuthenticated ? <Home /> : <ForgotPassword />}
+        element={!isAuthenticated ? <ForgotPassword /> : <Navigate to="/" />}
       />
+
       <Route
         path="/registration"
-        element={isAuthenticated ? <Home /> : <Registration />}
+        element={!isAuthenticated ? <Registration /> : <Navigate to="/" />}
       />
+
       <Route
         path="/createaccount"
-        element={isAuthenticated ? <Home /> : <CreateAccount />}
+        element={!isAuthenticated ? <CreateAccount /> : <Navigate to="/" />}
       />
+
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }

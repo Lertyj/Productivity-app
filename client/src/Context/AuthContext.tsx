@@ -1,78 +1,103 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { login, register, resetPassword, getMe } from "../Api/Auth";
-
-interface AuthContextType {
-  isAuthenticated: boolean;
-  loginUser: (email: string, password: string) => Promise<boolean>;
-  registerUser: (email: string, password: string) => Promise<boolean>;
-  resetPasswordUser: (
-    email: string,
-    newPassword: string,
-    reEnterPassword: string
-  ) => Promise<boolean>;
-  logout: () => void;
-}
+import { login, register, resetPassword, getMe, logoutApi } from "../Api/Auth";
+import { AuthContextType, AuthResponse } from "./Type";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const checkToken = async () => {
-    console.log("Проверяем статус авторизации...");
-    const isLogged = await getMe();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    console.log("Результат проверки:", isLogged);
-
-    setIsAuthenticated(isLogged);
-    setIsLoading(false);
+  const checkToken = async (): Promise<void> => {
+    setIsLoading(true);
+    try {
+      const response = await getMe();
+      setIsAuthenticated(response.success === true);
+    } catch (error) {
+      setIsAuthenticated(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     checkToken();
   }, []);
 
-  const loginUser = async (email: string, password: string) => {
-    const success = await login(email, password);
-    setIsAuthenticated(success);
-    return success;
+  const loginUser = async (
+    email: string,
+    password: string,
+  ): Promise<AuthResponse> => {
+    try {
+      const result: AuthResponse = await login(email, password);
+      setIsAuthenticated(result.success);
+      return result;
+    } catch (error: unknown) {
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : "Ошибка при входе",
+      };
+    }
   };
 
-  const registerUser = async (email: string, password: string) => {
-    const success = await register(email, password);
-    return success;
+  const registerUser = async (
+    email: string,
+    password: string,
+  ): Promise<AuthResponse> => {
+    try {
+      const result: AuthResponse = await register(email, password);
+      return result;
+    } catch (error: unknown) {
+      return {
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Ошибка при регистрации",
+      };
+    }
   };
 
   const resetPasswordUser = async (
     email: string,
     newPassword: string,
-    reEnterPassword: string
-  ) => {
+    reEnterPassword: string,
+  ): Promise<AuthResponse> => {
     try {
-      const success = await resetPassword(email, newPassword, reEnterPassword);
-      if (success) {
-        console.log("Пароль успешно сброшен");
-      } else {
-        console.log("Не удалось сбросить пароль");
-      }
-
-      return success;
-    } catch (error) {
-      console.log("Ошибка при сбросе пароля:", error);
-      return false;
+      const result: AuthResponse = await resetPassword(
+        email,
+        newPassword,
+        reEnterPassword,
+      );
+      return result;
+    } catch (error: unknown) {
+      return {
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Ошибка при сбросе пароля",
+      };
     }
   };
 
-  const logout = () => {
-    setIsAuthenticated(false);
+  const logout = async (): Promise<AuthResponse> => {
+    try {
+      const result = await logoutApi();
+      setIsAuthenticated(false);
+      return result;
+    } catch (error: unknown) {
+      setIsAuthenticated(false);
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : "Ошибка при выходе",
+      };
+    }
   };
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        isLoading,
         loginUser,
         registerUser,
         resetPasswordUser,
@@ -84,7 +109,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
