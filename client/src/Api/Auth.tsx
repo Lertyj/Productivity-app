@@ -9,19 +9,19 @@ async function handleResponse(response: Response): Promise<AuthResponse> {
       const data = await response.json();
       return {
         success: false,
-        message: data.message || "Необходима авторизация",
+        message: data.message || "Authorization required",
       };
     }
 
     return {
       success: true,
-      message: data.message || "Операция прошла успешно",
+      message: data.message || "The operation was successful.",
       data: data.data,
     };
   } catch (e) {
     return {
       success: false,
-      message: "Ошибка обработки данных с сервера",
+      message: "Error processing data from the server",
     };
   }
 }
@@ -39,7 +39,7 @@ export async function login(
     });
     return await handleResponse(response);
   } catch (error) {
-    return { success: false, message: "Сервер недоступен" };
+    return { success: false, message: "Server unavailable" };
   }
 }
 
@@ -53,7 +53,7 @@ export async function getMe(): Promise<AuthResponse> {
   } catch (error) {
     return {
       success: false,
-      message: "Не удалось проверить статус авторизации",
+      message: "Failed to check authorization status",
     };
   }
 }
@@ -71,7 +71,7 @@ export async function register(
     });
     return await handleResponse(response);
   } catch (error) {
-    return { success: false, message: "Ошибка при регистрации" };
+    return { success: false, message: "Error during registration" };
   }
 }
 
@@ -89,7 +89,7 @@ export async function resetPassword(
     });
     return await handleResponse(response);
   } catch (error) {
-    return { success: false, message: "Ошибка при смене пароля" };
+    return { success: false, message: "Error changing password" };
   }
 }
 
@@ -109,7 +109,7 @@ export async function logoutApi(): Promise<AuthResponse> {
   } catch (error) {
     return {
       success: false,
-      message: "Ошибка при выходе из системы",
+      message: "Error logging out",
     };
   }
 }

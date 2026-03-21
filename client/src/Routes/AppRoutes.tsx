@@ -4,7 +4,7 @@ import Start from "../Content/Authentication/Start/Start";
 import Login from "../Content/Authentication/Login/Login";
 import ForgotPassword from "../Content/Authentication/ForgotPassword/ForgotPassword";
 import Registration from "../Content/Authentication/Registration/Registration";
-import CreateAccount from "../Content/Authentication/CreateAccount/CreateAccount";
+
 import Home from "../Content/Home/Home";
 import { useAuth } from "../Context/AuthContext";
 import Profile from "../Content/Profile/Profile";
@@ -34,11 +34,6 @@ function AppRoutes() {
       <Route
         path="/registration"
         element={!isAuthenticated ? <Registration /> : <Navigate to="/" />}
-      />
-
-      <Route
-        path="/createaccount"
-        element={!isAuthenticated ? <CreateAccount /> : <Navigate to="/" />}
       />
 
       <Route path="*" element={<Navigate to="/" />} />
