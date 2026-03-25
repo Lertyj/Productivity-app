@@ -9,8 +9,7 @@
     cursor: pointer;
     text-wrap: nowrap;
     color: var(--button_color);
-    min-width: 260px;
-    margin-bottom: 0.65em;
+    margin: 0.65em auto 0;
     transition: opacity 0.2s ease;
     flex-direction: column;
     align-items: center;

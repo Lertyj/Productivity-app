@@ -10,13 +10,13 @@ import ScrollToTop from "./Methods/ScrollToTop";
 function App() {
   const { isAuthenticated, isLoading } = useAuth();
 
-  if (isLoading) {
-    return (
-      <div className={style.loadingWrapper}>
-        <div>Загрузка...</div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className={style.loadingWrapper}>
+  //       <div>Загрузка...</div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <Router>

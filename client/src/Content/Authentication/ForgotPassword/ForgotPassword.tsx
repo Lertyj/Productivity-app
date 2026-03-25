@@ -29,10 +29,9 @@ const ForgotPassword = () => {
     const result = await resetPasswordUser(email, newPassword, reEnterPassword);
     if (result.success) {
       setMessage("Password successfully changed!");
-      // Перенаправляем на логин через пару секунд, чтобы пользователь увидел сообщение
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => navigate("/login"), 200);
     } else {
-      setError(result.message || "Error resetting password");
+      setError("Error resetting password");
     }
   };
 
@@ -69,17 +68,6 @@ const ForgotPassword = () => {
               </NavLink>
             }
           >
-            {message && (
-              <p
-                style={{
-                  color: "var(--green)",
-                  textAlign: "center",
-                  marginBottom: "1em",
-                }}
-              >
-                {message}
-              </p>
-            )}
             <TextField
               type="email"
               id="reset-email"

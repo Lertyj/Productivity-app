@@ -1,9 +1,12 @@
-.wrapper {
+
+.wrapper{
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     max-width: 620px;
-    min-width: 240px;
+    min-width: 220px;
+    margin: 0 auto;
 
 }
 
@@ -14,8 +17,8 @@
     width: 100%;
 }
 
-.textinput {
-    width: 100%;
+.textinput{
+    width: inherit;
     height: 3em;
     font-size: calc((100vw - 360px)/(1920 - 360) * (22 - 12) + 12px);
     margin-bottom: 1em;
@@ -41,13 +44,13 @@
     flex-direction: column;
     min-width: 225px; 
     align-items: center;
-    gap: 10px;
+    
 }
 
 .error {
     color: red;
     margin-top: 0;
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
     text-align: center;
 }
 
@@ -57,7 +60,6 @@
     display: flex;
     flex-direction: row;
     text-align: left;
-    margin: 0 auto 1.25em;
 }
 
 .real_checkbox {
@@ -82,8 +84,8 @@
 .custom_checkbox::before {
     content: '';
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 0.8em;
+    height: 0.8em;
     background: url(../../../../svg/black_mark.svg) no-repeat center;
     background-size: contain;
     position: absolute;
@@ -108,4 +110,13 @@
     border: none;
     margin-right: 5px;
     padding-left: 0;
+}
+
+@media screen and (max-width:420px) {
+    .error_buttons {
+    width: 85%;
+    }
+    .wrapper{
+        width: 95%;
+    }
 }

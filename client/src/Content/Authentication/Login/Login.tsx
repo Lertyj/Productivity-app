@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./Login.module.css";
 import man from "../../../img/man.png";
 import focus from "../../../img/focus.png";
@@ -19,14 +19,20 @@ const Login = () => {
     e.preventDefault();
     const result = await loginUser(email, password);
     if (result.success) navigate("/");
-    else setError(result.message || "Incorrect email or password");
+    else setError("Incorrect email or password");
   };
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => setError(""), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
 
   return (
     <div className={style.wrapper}>
       <div className={style.logo}>
         <h1>
-          <span className={style.first}>F</span>ocus{" "}
+          <span className={style.first}>F</span>ocus
           <span className={style.second}>P</span>oint
         </h1>
       </div>

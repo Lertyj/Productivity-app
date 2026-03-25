@@ -21,7 +21,6 @@ const AuthForm = ({
 }: AuthFormProps) => {
   return (
     <form className={style.wrapper} onSubmit={onSubmit}>
-      {/* Сюда упадут TextField */}
       {children}
 
       <div className={style.error_buttons}>

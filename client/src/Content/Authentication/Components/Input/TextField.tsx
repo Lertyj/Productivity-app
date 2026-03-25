@@ -2,7 +2,6 @@ import React from "react";
 import style from "./Input.module.css";
 
 interface TextFieldProps {
-  label?: string;
   type: string;
   id: string;
   placeholder: string;
@@ -12,7 +11,6 @@ interface TextFieldProps {
 }
 
 const TextField = ({
-  label,
   type,
   id,
   placeholder,
@@ -20,12 +18,7 @@ const TextField = ({
   onChange,
   required = true,
 }: TextFieldProps) => (
-  <div className={style.block1}>
-    {label && (
-      <label className={style.label} htmlFor={id}>
-        {label}
-      </label>
-    )}
+  <div className={style.wrapper}>
     <input
       className={style.textinput}
       type={type}

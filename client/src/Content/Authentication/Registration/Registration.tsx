@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./Registration.module.css";
 import man from "../../../img/man.png";
 import focus from "../../../img/focus.png";
@@ -22,9 +22,15 @@ const Registration = () => {
     if (result.success) {
       navigate("/login");
     } else {
-      setError(result.message || "Registration error");
+      setError("Registration error");
     }
   };
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => setError(""), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
 
   return (
     <div className={style.wrapper}>
@@ -51,7 +57,7 @@ const Registration = () => {
             onSubmit={handleSubmit}
             error={error}
             submitText="Sign up with email"
-            showPrivacy={true} // Включаем чекбокс политики
+            showPrivacy={true}
           >
             <TextField
               type="email"
