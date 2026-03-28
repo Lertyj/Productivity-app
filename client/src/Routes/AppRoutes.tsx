@@ -15,7 +15,10 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={isAuthenticated ? <Home /> : <Start />} />
-
+      {/* <Route 
+        path="/board/:boardId" 
+        element={isAuthenticated ? <BoardPage /> : <Navigate to="/" />} 
+      /> */}
       <Route
         path="/profile"
         element={isAuthenticated ? <Profile /> : <Navigate to="/" />}

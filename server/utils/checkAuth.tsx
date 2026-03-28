@@ -6,6 +6,7 @@ export default (req: Request, res: Response, next: NextFunction): void => {
     const token =
       req.cookies.jwt ||
       (req.headers.authorization || "").replace(/Bearer\s?/, "");
+
     if (!token) {
       res.status(403).json({ success: false, message: "Токен не найден" });
       return;
@@ -15,7 +16,9 @@ export default (req: Request, res: Response, next: NextFunction): void => {
       _id: string;
     };
 
-    req.userId = decoded._id;
+    req.user = {
+      _id: decoded._id,
+    };
 
     next();
   } catch (e) {

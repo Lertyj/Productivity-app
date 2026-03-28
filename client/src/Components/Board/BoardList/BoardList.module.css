@@ -1,0 +1,89 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    gap:0.8em;
+}
+
+.list{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+    gap: 20px;
+}
+.board{
+    padding: 20px;
+    background: var(--background_menu);
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+.header {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+
+.toggleBtn {
+    width: 32px;
+    height: 32px;
+    background: var(--button_green); 
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    opacity: 1;
+    justify-content: center;
+    transition: opacity 0.25s ease;
+}
+
+.toggleBtn:hover {
+    opacity: 0.8;
+}
+
+
+.line {
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+
+.line1 {
+    transform: rotate(0deg);
+}
+
+
+.line2 {
+    transform: rotate(90deg);
+}
+
+
+.active .line1 {
+    transform: rotate(45deg); 
+}
+
+.active .line2 {
+    transform: rotate(135deg);
+}
+
+.formContainer {
+    overflow: hidden;
+    transition: max-height 0.25s ease, opacity 0.25s ease;
+    max-height: 0;
+    opacity: 0;
+}
+
+.formVisible {
+    max-height: 500px; 
+    opacity: 1;
+}
+@media screen and (max-width:420px) {
+    .wrapper{
+        gap:0.4em;
+    }
+}

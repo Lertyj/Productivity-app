@@ -1,9 +1,5 @@
 const BASE_URL = process.env.REACT_APP_API_URL;
-interface Board {
-  id: string;
-  name: string;
-  userId: string;
-}
+import { Board } from "../../App/Types/Type";
 export const createBoard = async (boardName: string): Promise<Board> => {
   try {
     const response = await fetch(`${BASE_URL}/api/boards`, {
@@ -44,5 +40,26 @@ export const createBoard = async (boardName: string): Promise<Board> => {
 
       throw new Error("Неизвестная ошибка");
     }
+  }
+};
+export const getMyBoards = async (): Promise<Board[]> => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/boards`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Ошибка ${response.status}: ${errorText}`);
+    }
+
+    return await response.json();
+  } catch (error: unknown) {
+    if (error instanceof Error) throw error;
+    throw new Error("Непредвиденная ошибка при получении досок");
   }
 };

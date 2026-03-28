@@ -13,9 +13,9 @@ declare module "express-serve-static-core" {
 export const authMiddleware = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void => {
-  const token = req.cookies.authToken;
+  const token = req.cookies.jwt;
 
   if (!token) {
     res.status(401).json({ message: "Нет токена, авторизация не пройдена." });
@@ -35,5 +35,6 @@ export const authMiddleware = (
     next();
   } catch (err) {
     res.status(401).json({ message: "Токен недействителен." });
+    return;
   }
 };
